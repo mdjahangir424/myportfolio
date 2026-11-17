@@ -1,0 +1,53 @@
+
+name: portfolio
+description: Premium personal portfolio website of Md Jahangir Alam - Flutter Developer and AI Automation Specialist.
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Google Fonts
+  google_fonts: ^6.2.1
+
+  # Responsive Layout
+  flutter_screenutil: ^5.9.3
+
+  # Animations
+  flutter_animate: ^4.5.2
+
+  # Smooth Scrolling
+  scrollable_positioned_list: ^0.3.8
+
+  # URL Launcher
+  url_launcher: ^6.3.1
+
+  # Icons
+  font_awesome_flutter: ^10.8.0
+
+  # Image Support
+  cached_network_image: ^3.4.1
+
+  # State Management
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    
