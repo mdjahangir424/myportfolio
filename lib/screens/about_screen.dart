@@ -10,9 +10,8 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark =
+        Theme.of(context).brightness == Brightness.dark;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
@@ -42,10 +41,8 @@ class AboutScreen extends StatelessWidget {
                     isDark,
                   );
 
-                  final introduction = _buildIntroduction(
-                    context,
-                    isDark,
-                  );
+                  final introduction =
+                      _buildIntroduction(context);
 
                   if (isMobile) {
                     return Column(
@@ -128,11 +125,15 @@ class AboutScreen extends StatelessWidget {
             aspectRatio: 0.78,
             child: Image.asset(
               profileImage,
+              width: double.infinity,
+              height: double.infinity,
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
+              filterQuality: FilterQuality.high,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
                   color: colors.surfaceContainerHighest,
+                  alignment: Alignment.center,
                   child: Icon(
                     Icons.person_outline,
                     size: 100,
@@ -147,10 +148,7 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIntroduction(
-    BuildContext context,
-    bool isDark,
-  ) {
+  Widget _buildIntroduction(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
 
@@ -346,14 +344,18 @@ class AboutScreen extends StatelessWidget {
                         size: 30,
                         color: colors.primary,
                       ),
+
                       const SizedBox(height: 15),
+
                       Text(
                         item.title,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+
                       const SizedBox(height: 8),
+
                       Text(
                         item.description,
                         style: theme.textTheme.bodySmall?.copyWith(
@@ -392,7 +394,9 @@ class AboutScreen extends StatelessWidget {
             size: 38,
             color: colors.primary,
           ),
+
           const SizedBox(height: 16),
+
           Text(
             'My Professional Goal',
             textAlign: TextAlign.center,
@@ -400,7 +404,9 @@ class AboutScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
+
           const SizedBox(height: 14),
+
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 750),
             child: Text(
