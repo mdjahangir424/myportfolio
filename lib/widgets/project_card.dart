@@ -84,56 +84,27 @@ class ProjectCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Project Cover Image
+          // Project Cover Image - No Badge Overlay
           SizedBox(
             height: 185,
             width: double.infinity,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Image.asset(
-                  image,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: isDark
-                          ? Colors.grey.shade800
-                          : Colors.grey.shade200,
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        size: 46,
-                        color: colors.onSurface.withValues(
-                          alpha: 0.45,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-
-                Positioned(
-                  top: 14,
-                  left: 14,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colors.primary,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      category.toUpperCase(),
-                      style: TextStyle(
-                        color: colors.onPrimary,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.8,
-                      ),
+            child: Image.asset(
+              image,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  color: isDark
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade200,
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    size: 46,
+                    color: colors.onSurface.withValues(
+                      alpha: 0.45,
                     ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
 
@@ -144,24 +115,45 @@ class ProjectCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            height: 1.25,
-                          ),
-                        ),
+                  // Category Badge - Moved Below Image
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(
+                        alpha: 0.10,
                       ),
-                    ],
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Text(
+                      category.toUpperCase(),
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Project Title
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      height: 1.25,
+                    ),
                   ),
 
                   const SizedBox(height: 10),
 
+                  // Description
                   Text(
                     description,
                     maxLines: 3,
@@ -175,6 +167,7 @@ class ProjectCard extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
+                  // Technologies
                   Text(
                     'TECHNOLOGIES',
                     style: theme.textTheme.labelSmall?.copyWith(
@@ -222,6 +215,7 @@ class ProjectCard extends StatelessWidget {
 
                   const SizedBox(height: 8),
 
+                  // Project Status
                   Row(
                     children: [
                       Icon(
@@ -247,6 +241,7 @@ class ProjectCard extends StatelessWidget {
 
                   const SizedBox(height: 14),
 
+                  // Action Buttons
                   Row(
                     children: [
                       if (githubUrl.trim().isNotEmpty)
