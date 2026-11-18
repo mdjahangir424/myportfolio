@@ -28,33 +28,14 @@ class PortfolioApp extends StatefulWidget {
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
-  late bool _isDarkMode;
+       late bool _isDarkMode;
+       int _selectedIndex = 0;
 
 @override
 void initState() {
   super.initState();
   _isDarkMode = widget.initialDarkMode;
 }
-  int _selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadThemePreference();
-  }
-
-  // Load Saved Theme
-  Future<void> _loadThemePreference() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    final savedTheme = prefs.getBool('isDarkMode') ?? false;
-
-    if (!mounted) return;
-
-    setState(() {
-      _isDarkMode = savedTheme;
-    });
-  }
 
   // Save Theme Preference
   Future<void> _saveThemePreference(bool value) async {
