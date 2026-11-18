@@ -35,10 +35,14 @@ class ProjectCard extends StatelessWidget {
     }
 
     try {
-      await launchUrl(
+      final opened = await launchUrl(
         uri,
         mode: LaunchMode.externalApplication,
       );
+
+      if (!opened) {
+        debugPrint('Could not open URL: $url');
+      }
     } catch (e) {
       debugPrint('Could not open link: $e');
     }
@@ -47,110 +51,246 @@ class ProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
 
     final techList = technologies
         .split(',')
         .map((item) => item.trim())
         .where((item) => item.isNotEmpty)
-        .take(4)
+        .take(5)
         .toList();
 
-    return Card(
-      elevation: 3,
-      clipBehavior: Clip.antiAlias,
-      color: theme.cardColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: colors.primary.withValues(
+            alpha: isDark ? 0.22 : 0.10,
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: isDark ? 0.16 : 0.055,
+            ),
+            blurRadius: 22,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.asset(
-              image,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: isDark
-                      ? Colors.grey.shade800
-                      : Colors.grey.shade200,
-                  child: const Center(
-                    child: Icon(
-                      Icons.image_not_supported_outlined,
-                      size: 40,
+          // Project Cover Image
+          SizedBox(
+            height: 185,
+            width: double.infinity,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Image.asset(
+                  image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: isDark
+                          ? Colors.grey.shade800
+                          : Colors.grey.shade200,
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        size: 46,
+                        color: colors.onSurface.withValues(
+                          alpha: 0.45,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                Positioned(
+                  top: 14,
+                  left: 14,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.primary,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Text(
+                      category.toUpperCase(),
+                      style: TextStyle(
+                        color: colors.onPrimary,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.8,
+                      ),
                     ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
           ),
+
+          // Project Details
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    category.toUpperCase(),
-                    style: TextStyle(
-                      color: theme.colorScheme.primary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            height: 1.25,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
+
+                  const SizedBox(height: 10),
+
                   Text(
                     description,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      height: 1.6,
+                      color: theme.textTheme.bodySmall?.color
+                          ?.withValues(alpha: 0.78),
+                    ),
                   ),
+
+                  const SizedBox(height: 16),
+
+                  Text(
+                    'TECHNOLOGIES',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+
                   const SizedBox(height: 10),
+
                   Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
+                    spacing: 7,
+                    runSpacing: 7,
                     children: techList.map((tech) {
-                      return Chip(
-                        label: Text(
-                          tech,
-                          style: const TextStyle(fontSize: 10),
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 7,
                         ),
-                        visualDensity: VisualDensity.compact,
+                        decoration: BoxDecoration(
+                          color: colors.primary.withValues(
+                            alpha: 0.09,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          tech,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: colors.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       );
                     }).toList(),
                   ),
+
                   const Spacer(),
-                  Text(
-                    'Status: $status',
-                    style: theme.textTheme.bodySmall,
+
+                  Divider(
+                    color: theme.dividerColor.withValues(
+                      alpha: 0.35,
+                    ),
                   ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 8,
+
+                  const SizedBox(height: 8),
+
+                  Row(
                     children: [
-                      if (githubUrl.isNotEmpty)
-                        OutlinedButton.icon(
-                          onPressed: () => _openLink(githubUrl),
-                          icon: const Icon(Icons.code),
-                          label: const Text('GitHub'),
+                      Icon(
+                        Icons.circle,
+                        size: 9,
+                        color: status.toLowerCase().contains('complete')
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
+                      const SizedBox(width: 7),
+                      Expanded(
+                        child: Text(
+                          status,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      if (liveUrl.isNotEmpty)
-                        FilledButton.icon(
-                          onPressed: () => _openLink(liveUrl),
-                          icon: const Icon(Icons.open_in_new),
-                          label: const Text('Live Demo'),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  Row(
+                    children: [
+                      if (githubUrl.trim().isNotEmpty)
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => _openLink(githubUrl),
+                            icon: const Icon(
+                              Icons.code_rounded,
+                              size: 17,
+                            ),
+                            label: const Text('GitHub'),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      if (githubUrl.trim().isNotEmpty &&
+                          liveUrl.trim().isNotEmpty)
+                        const SizedBox(width: 10),
+
+                      if (liveUrl.trim().isNotEmpty)
+                        Expanded(
+                          child: FilledButton.icon(
+                            onPressed: () => _openLink(liveUrl),
+                            icon: const Icon(
+                              Icons.open_in_new_rounded,
+                              size: 16,
+                            ),
+                            label: const Text('Live Demo'),
+                            style: FilledButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(11),
+                              ),
+                            ),
+                          ),
                         ),
                     ],
                   ),
