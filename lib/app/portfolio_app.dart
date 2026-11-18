@@ -16,7 +16,12 @@ import '../screens/automation_screen.dart';
 import '../screens/contact_screen.dart';
 
 class PortfolioApp extends StatefulWidget {
-  const PortfolioApp({super.key});
+  final bool initialDarkMode;
+
+  const PortfolioApp({
+    super.key,
+    required this.initialDarkMode,
+  });
 
   @override
   State<PortfolioApp> createState() => _PortfolioAppState();
