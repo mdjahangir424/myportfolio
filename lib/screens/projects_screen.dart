@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 
 import '../data/projects_data.dart';
 import '../widgets/section_title.dart';
+import '../widgets/project_card.dart';
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
@@ -44,110 +43,20 @@ class ProjectsScreen extends StatelessWidget {
                       crossAxisCount: count,
                       crossAxisSpacing: 22,
                       mainAxisSpacing: 22,
-                      mainAxisExtent: 390,
+                      mainAxisExtent: 500,
                     ),
                     itemBuilder: (context, index) {
                       final project = projectsData[index];
 
-                      final technologies = project.technologies
-                          .split(',')
-                          .map((item) => item.trim())
-                          .where((item) => item.isNotEmpty)
-                          .take(4)
-                          .toList();
-
-                      return Card(
-                        clipBehavior: Clip.antiAlias,
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 175,
-                              width: double.infinity,
-                              child: project.image.isNotEmpty
-                                  ? Image.asset(
-                                      project.image,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return _imagePlaceholder(theme);
-                                      },
-                                    )
-                                  : _imagePlaceholder(theme),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(18),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            project.title,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.titleMedium
-                                                ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Flexible(
-                                          child: Text(
-                                            project.status,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.labelSmall
-                                                ?.copyWith(
-                                              color:
-                                                  theme.colorScheme.primary,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      project.description,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: theme.textTheme.bodySmall
-                                          ?.copyWith(height: 1.5),
-                                    ),
-                                    const Spacer(),
-                                    Wrap(
-                                      spacing: 6,
-                                      runSpacing: 6,
-                                      children: technologies.map(
-                                        (technology) {
-                                          return Chip(
-                                            label: Text(
-                                              technology,
-                                              style: const TextStyle(
-                                                fontSize: 10,
-                                              ),
-                                            ),
-                                            visualDensity:
-                                                VisualDensity.compact,
-                                            padding: EdgeInsets.zero,
-                                          );
-                                        },
-                                      ).toList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      return ProjectCard(
+                        title: project.title,
+                        description: project.description,
+                        category: project.category,
+                        status: project.status,
+                        technologies: project.technologies,
+                        image: project.image,
+                        githubUrl: project.githubUrl,
+                        liveUrl: project.liveUrl,
                       );
                     },
                   );
@@ -156,18 +65,6 @@ class ProjectsScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _imagePlaceholder(ThemeData theme) {
-    return Container(
-      color: theme.colorScheme.primary.withValues(alpha: 0.08),
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.image_outlined,
-        size: 48,
-        color: theme.colorScheme.primary,
       ),
     );
   }
