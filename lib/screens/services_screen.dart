@@ -10,6 +10,7 @@ class ServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
 
     return SingleChildScrollView(
@@ -30,7 +31,7 @@ class ServicesScreen extends StatelessWidget {
                     'to help businesses grow.',
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 42),
 
               LayoutBuilder(
                 builder: (context, constraints) {
@@ -42,123 +43,151 @@ class ServicesScreen extends StatelessWidget {
                           ? 2
                           : 1;
 
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: servicesData.length,
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 22,
-                      mainAxisSpacing: 22,
-                      mainAxisExtent: 330,
-                    ),
-                    itemBuilder: (context, index) {
-                      final service = servicesData[index];
+                  const spacing = 22.0;
 
-                      return Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(
-                            color: theme.dividerColor.withValues(
-                              alpha: 0.15,
+                  final cardWidth = crossAxisCount == 1
+                      ? width
+                      : (width -
+                              spacing * (crossAxisCount - 1)) /
+                          crossAxisCount;
+
+                  return Wrap(
+                    spacing: spacing,
+                    runSpacing: spacing,
+                    children: servicesData.map((service) {
+                      return SizedBox(
+                        width: cardWidth,
+                        child: Container(
+                          padding: const EdgeInsets.all(26),
+                          decoration: BoxDecoration(
+                            color: theme.cardColor,
+                            borderRadius: BorderRadius.circular(22),
+                            border: Border.all(
+                              color: colors.primary.withValues(
+                                alpha: isDark ? 0.22 : 0.10,
+                              ),
                             ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: isDark ? 0.12 : 0.045,
+                                ),
+                                blurRadius: 22,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(
-                                alpha: isDark ? 0.10 : 0.04,
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                height: 62,
+                                width: 62,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      colors.primary,
+                                      colors.secondary,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.circular(18),
+                                ),
+                                child: Icon(
+                                  service.icon,
+                                  color: colors.onPrimary,
+                                  size: 30,
+                                ),
                               ),
-                              blurRadius: 18,
-                              offset: const Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 54,
-                              width: 54,
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.primary
-                                    .withValues(alpha: 0.10),
-                                borderRadius: BorderRadius.circular(14),
+
+                              const SizedBox(height: 22),
+
+                              Text(
+                                service.title,
+                                style: theme.textTheme.titleLarge
+                                    ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.3,
+                                ),
                               ),
-                              child: Icon(
-                                service.icon,
-                                color: theme.colorScheme.primary,
-                                size: 28,
+
+                              const SizedBox(height: 12),
+
+                              Text(
+                                service.description,
+                                style: theme.textTheme.bodyMedium
+                                    ?.copyWith(
+                                  height: 1.7,
+                                  color: theme.textTheme.bodyMedium
+                                      ?.color
+                                      ?.withValues(alpha: 0.75),
+                                ),
                               ),
-                            ),
 
-                            const SizedBox(height: 18),
+                              const SizedBox(height: 22),
 
-                            Text(
-                              service.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
+                              Divider(
+                                color: theme.dividerColor.withValues(
+                                  alpha: 0.35,
+                                ),
                               ),
-                            ),
 
-                            const SizedBox(height: 10),
+                              const SizedBox(height: 14),
 
-                            Text(
-                              service.description,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                height: 1.6,
-                                color: theme.textTheme.bodySmall?.color
-                                    ?.withValues(alpha: 0.75),
+                              Text(
+                                'WHAT’S INCLUDED',
+                                style: theme.textTheme.labelSmall
+                                    ?.copyWith(
+                                  color: colors.primary,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.1,
+                                ),
                               ),
-                            ),
 
-                            const SizedBox(height: 14),
+                              const SizedBox(height: 14),
 
-                            Expanded(
-                              child: ListView.builder(
-                                physics:
-                                    const NeverScrollableScrollPhysics(),
-                                itemCount: service.features.length,
-                                itemBuilder: (context, featureIndex) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 7,
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Icon(
-                                          Icons.check_circle,
-                                          size: 16,
-                                          color: theme.colorScheme.primary,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            service.features[featureIndex],
-                                            style: theme.textTheme.bodySmall,
+                              ...service.features.map((feature) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 12,
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.check_circle_rounded,
+                                        size: 19,
+                                        color: colors.primary,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          feature,
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                            height: 1.5,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
                         ),
                       );
-                    },
+                    }).toList(),
                   );
                 },
               ),
+
+              const SizedBox(height: 60),
             ],
           ),
         ),
