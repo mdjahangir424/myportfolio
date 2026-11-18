@@ -1,47 +1,78 @@
 
 import 'package:flutter/material.dart';
 
-class SocialData {
+class SkillData {
   final String name;
+  final String category;
+  final String level;
   final IconData icon;
-  final String url;
 
-  const SocialData({
+  const SkillData({
     required this.name,
+    required this.category,
+    required this.level,
     required this.icon,
-    required this.url,
   });
 }
 
-const List<SocialData> socialData = [
-  SocialData(
-    name: 'Facebook',
-    icon: Icons.facebook,
-    url: 'https://www.facebook.com/share/1CJhQgE22q/',
+const List<SkillData> skillsData = [
+  // Flutter Development
+  SkillData(
+    name: 'Flutter',
+    category: 'Mobile Development',
+    level: 'Advanced',
+    icon: Icons.phone_android,
   ),
-  SocialData(
-    name: 'GitHub',
+  SkillData(
+    name: 'Dart',
+    category: 'Mobile Development',
+    level: 'Intermediate',
     icon: Icons.code,
-    url: 'https://github.com/mdjahangir424',
   ),
-  SocialData(
-    name: 'LinkedIn',
-    icon: Icons.business_center_outlined,
-    url: 'https://www.linkedin.com/in/mdjahangir424?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+  SkillData(
+    name: 'Android Development',
+    category: 'Mobile Development',
+    level: 'Intermediate',
+    icon: Icons.android,
   ),
-  SocialData(
-    name: 'YouTube',
-    icon: Icons.play_circle_outline,
-    url: 'https://youtube.com/@voiceofjahangiralam?si=OzLaQ7OFWfDBes0H',
+
+  // Backend & Database
+  SkillData(
+    name: 'Firebase',
+    category: 'Backend & Database',
+    level: 'Intermediate',
+    icon: Icons.local_fire_department,
   ),
-  SocialData(
-    name: 'Email',
-    icon: Icons.email_outlined,
-    url: 'mailto:mdjahangir424@outlook.com',
+  SkillData(
+    name: 'Cloud Firestore',
+    category: 'Backend & Database',
+    level: 'Intermediate',
+    icon: Icons.cloud,
   ),
-  SocialData(
-    name: 'WhatsApp',
-    icon: Icons.chat_outlined,
-    url: 'https://wa.me/8801778600028',
+  SkillData(
+    name: 'GitHub',
+    category: 'Backend & Database',
+    level: 'Intermediate',
+    icon: Icons.code,
+  ),
+
+  // AI & Automation
+  SkillData(
+    name: 'AI Agent Development',
+    category: 'AI & Automation',
+    level: 'Intermediate',
+    icon: Icons.smart_toy,
+  ),
+  SkillData(
+    name: 'AI Automation',
+    category: 'AI & Automation',
+    level: 'Intermediate',
+    icon: Icons.auto_awesome,
+  ),
+  SkillData(
+    name: 'Workflow Automation',
+    category: 'AI & Automation',
+    level: 'Intermediate',
+    icon: Icons.account_tree,
   ),
 ];
