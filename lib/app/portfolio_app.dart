@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'app_theme.dart';
 import '../widgets/navbar.dart';
+
 import '../screens/home_screen.dart';
 import '../screens/about_screen.dart';
 import '../screens/skills_screen.dart';
@@ -22,22 +23,28 @@ class _PortfolioAppState extends State<PortfolioApp> {
   bool _isDarkMode = false;
   int _selectedIndex = 0;
 
-  final List<String> _navigationItems = [
-    'Home',
-    'About',
-    'Skills',
-    'Services',
-    'Projects',
-    'Automation',
-    'Contact',
-  ];
+  void _navigateTo(String item) {
+    final index = PortfolioNavbar.navItems.indexOf(item);
+
+    if (index >= 0) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  void _navigateToIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   Widget _getSelectedScreen() {
     switch (_selectedIndex) {
       case 0:
         return HomeScreen(
-          onViewProjects: () => _navigateTo(4),
-          onContact: () => _navigateTo(6),
+          onViewProjects: () => _navigateToIndex(4),
+          onContact: () => _navigateToIndex(5),
         );
       case 1:
         return const AboutScreen();
@@ -48,28 +55,14 @@ class _PortfolioAppState extends State<PortfolioApp> {
       case 4:
         return const ProjectsScreen();
       case 5:
-        return const AutomationScreen();
-      case 6:
         return const ContactScreen();
+      case 6:
+        return const AutomationScreen();
       default:
-        return const HomeScreen(
-          onViewProjects: null,
-          onContact: null,
+        return HomeScreen(
+          onViewProjects: () => _navigateToIndex(4),
+          onContact: () => _navigateToIndex(5),
         );
-    }
-  }
-
-  void _navigateTo(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _handleNavigation(String item) {
-    final index = _navigationItems.indexOf(item);
-
-    if (index != -1) {
-      _navigateTo(index);
     }
   }
 
@@ -92,7 +85,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
                     _isDarkMode = value;
                   });
                 },
-                onNavigate: _handleNavigation,
+                onNavigate: _navigateTo,
               ),
               Expanded(
                 child: _getSelectedScreen(),
