@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/material.dart';
 
 import '../data/skills_data.dart';
@@ -10,7 +9,8 @@ class SkillsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
     final categories = skillsData
         .map((skill) => skill.category)
@@ -24,15 +24,20 @@ class SkillsScreen extends StatelessWidget {
       ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1100),
+          constraints: const BoxConstraints(
+            maxWidth: 1150,
+          ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SectionTitle(
                 title: 'My Skills',
                 subtitle:
-                    'Technologies and tools I work with.',
+                    'Technologies and tools I use to build '
+                    'modern applications and intelligent solutions.',
               ),
-              const SizedBox(height: 50),
+
+              const SizedBox(height: 55),
 
               ...categories.map((category) {
                 final categorySkills = skillsData
@@ -40,21 +45,56 @@ class SkillsScreen extends StatelessWidget {
                     .toList();
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
+                  padding: const EdgeInsets.only(bottom: 42),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        category,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
+                      Row(
+                        children: [
+                          Container(
+                            width: 5,
+                            height: 28,
+                            decoration: BoxDecoration(
                               color: colors.primary,
+                              borderRadius: BorderRadius.circular(10),
                             ),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          Expanded(
+                            child: Text(
+                              category,
+                              style: theme.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: colors.primary.withValues(
+                                alpha: 0.10,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Text(
+                              '${categorySkills.length} Skills',
+                              style: TextStyle(
+                                color: colors.primary,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 18),
+
+                      const SizedBox(height: 22),
 
                       LayoutBuilder(
                         builder: (context, constraints) {
@@ -75,7 +115,7 @@ class SkillsScreen extends StatelessWidget {
                               crossAxisCount: columns,
                               crossAxisSpacing: 18,
                               mainAxisSpacing: 18,
-                              mainAxisExtent: 125,
+                              mainAxisExtent: 135,
                             ),
                             itemBuilder: (context, index) {
                               final skill = categorySkills[index];
@@ -83,31 +123,42 @@ class SkillsScreen extends StatelessWidget {
                               return Container(
                                 padding: const EdgeInsets.all(18),
                                 decoration: BoxDecoration(
-                                  color: colors.surface,
-                                  borderRadius:
-                                      BorderRadius.circular(14),
+                                  color: theme.cardColor,
+                                  borderRadius: BorderRadius.circular(18),
                                   border: Border.all(
                                     color: colors.outlineVariant,
                                   ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: colors.shadow.withValues(
+                                        alpha: 0.035,
+                                      ),
+                                      blurRadius: 14,
+                                      offset: const Offset(0, 5),
+                                    ),
+                                  ],
                                 ),
                                 child: Row(
                                   children: [
                                     Container(
-                                      width: 48,
-                                      height: 48,
+                                      width: 50,
+                                      height: 50,
                                       decoration: BoxDecoration(
-                                        color: colors.primary
-                                            .withValues(alpha: 0.10),
+                                        color: colors.primary.withValues(
+                                          alpha: 0.10,
+                                        ),
                                         borderRadius:
-                                            BorderRadius.circular(12),
+                                            BorderRadius.circular(14),
                                       ),
                                       child: Icon(
                                         skill.icon,
                                         color: colors.primary,
-                                        size: 25,
+                                        size: 26,
                                       ),
                                     ),
+
                                     const SizedBox(width: 14),
+
                                     Expanded(
                                       child: Column(
                                         mainAxisAlignment:
@@ -117,20 +168,39 @@ class SkillsScreen extends StatelessWidget {
                                         children: [
                                           Text(
                                             skill.name,
-                                            style: const TextStyle(
-                                              fontWeight:
-                                                  FontWeight.w600,
-                                              fontSize: 15,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: theme
+                                                .textTheme.titleSmall
+                                                ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.3,
                                             ),
                                           ),
-                                          const SizedBox(height: 7),
-                                          Text(
-                                            skill.level,
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              color: colors.onSurface
-                                                  .withValues(
-                                                alpha: 0.65,
+
+                                          const SizedBox(height: 10),
+
+                                          Container(
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                              horizontal: 9,
+                                              vertical: 5,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: colors.primary
+                                                  .withValues(alpha: 0.08),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            child: Text(
+                                              skill.level,
+                                              maxLines: 1,
+                                              overflow:
+                                                  TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w600,
+                                                color: colors.primary,
                                               ),
                                             ),
                                           ),
