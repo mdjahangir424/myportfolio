@@ -43,7 +43,7 @@ class ProjectsScreen extends StatelessWidget {
                       crossAxisCount: count,
                       crossAxisSpacing: 22,
                       mainAxisSpacing: 22,
-                      mainAxisExtent: 500,
+                      mainAxisExtent: 580,
                     ),
                     itemBuilder: (context, index) {
                       final project = projectsData[index];
