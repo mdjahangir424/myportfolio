@@ -28,7 +28,13 @@ class PortfolioApp extends StatefulWidget {
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
-  bool _isDarkMode = false;
+  late bool _isDarkMode;
+
+@override
+void initState() {
+  super.initState();
+  _isDarkMode = widget.initialDarkMode;
+}
   int _selectedIndex = 0;
 
   @override
