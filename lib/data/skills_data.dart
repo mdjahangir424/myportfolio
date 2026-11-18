@@ -1,98 +1,47 @@
 
 import 'package:flutter/material.dart';
 
-class SkillData {
+class SocialData {
   final String name;
-  final String category;
   final IconData icon;
-  final String level;
+  final String url;
 
-  const SkillData({
+  const SocialData({
     required this.name,
-    required this.category,
     required this.icon,
-    required this.level,
+    required this.url,
   });
 }
 
-const List<SkillData> skillsData = [
-  // Flutter & Mobile Development
-  SkillData(
-    name: 'Flutter',
-    category: 'Mobile Development',
-    icon: Icons.phone_android,
-    level: 'Experience details to be updated',
+const List<SocialData> socialData = [
+  SocialData(
+    name: 'Facebook',
+    icon: Icons.facebook,
+    url: 'https://www.facebook.com/share/1CJhQgE22q/',
   ),
-  SkillData(
-    name: 'Dart',
-    category: 'Mobile Development',
+  SocialData(
+    name: 'GitHub',
     icon: Icons.code,
-    level: 'Experience details to be updated',
+    url: 'https://github.com/mdjahangir424',
   ),
-  SkillData(
-    name: 'Android App Development',
-    category: 'Mobile Development',
-    icon: Icons.android,
-    level: 'Experience details to be updated',
+  SocialData(
+    name: 'LinkedIn',
+    icon: Icons.business_center_outlined,
+    url: 'https://www.linkedin.com/in/mdjahangir424?utm_source=share_via&utm_content=profile&utm_medium=member_android',
   ),
-
-  // Backend & Database
-  SkillData(
-    name: 'Firebase',
-    category: 'Backend & Database',
-    icon: Icons.local_fire_department,
-    level: 'Experience details to be updated',
+  SocialData(
+    name: 'YouTube',
+    icon: Icons.play_circle_outline,
+    url: 'https://youtube.com/@voiceofjahangiralam?si=OzLaQ7OFWfDBes0H',
   ),
-  SkillData(
-    name: 'Cloud Firestore',
-    category: 'Backend & Database',
-    icon: Icons.storage,
-    level: 'Experience details to be updated',
+  SocialData(
+    name: 'Email',
+    icon: Icons.email_outlined,
+    url: 'mailto:mdjahangir424@outlook.com',
   ),
-  SkillData(
-    name: 'REST API',
-    category: 'Backend & Database',
-    icon: Icons.api,
-    level: 'Experience details to be updated',
-  ),
-
-  // AI & Automation
-  SkillData(
-    name: 'AI Agent Development',
-    category: 'AI & Automation',
-    icon: Icons.smart_toy,
-    level: 'Experience details to be updated',
-  ),
-  SkillData(
-    name: 'n8n Workflow Automation',
-    category: 'AI & Automation',
-    icon: Icons.account_tree,
-    level: 'Advanced',
-  ),
-  SkillData(
-    name: 'OpenAI API',
-    category: 'AI & Automation',
-    icon: Icons.psychology,
-    level: 'Experience details to be updated',
-  ),
-  SkillData(
-    name: 'Google Gemini API',
-    category: 'AI & Automation',
-    icon: Icons.auto_awesome,
-    level: 'Experience details to be updated',
-  ),
-  SkillData(
-    name: 'Webhooks',
-    category: 'AI & Automation',
-    icon: Icons.webhook,
-    level: 'Experience details to be updated',
-  ),
-
-  // Development Tools
-  SkillData(
-    name: 'Git & GitHub',
-    category: 'Development Tools',
-    icon: Icons.code_outlined,
-    level: 'Experience details to be updated',
+  SocialData(
+    name: 'WhatsApp',
+    icon: Icons.chat_outlined,
+    url: 'https://wa.me/8801778600028',
   ),
 ];
