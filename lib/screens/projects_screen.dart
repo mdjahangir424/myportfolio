@@ -27,7 +27,6 @@ class ProjectsScreen extends StatelessWidget {
                     'Explore my applications, AI solutions, and development work.',
               ),
               const SizedBox(height: 40),
-
               LayoutBuilder(
                 builder: (context, constraints) {
                   final count = constraints.maxWidth >= 900
@@ -49,6 +48,13 @@ class ProjectsScreen extends StatelessWidget {
                     ),
                     itemBuilder: (context, index) {
                       final project = projectsData[index];
+
+                      final technologies = project.technologies
+                          .split(',')
+                          .map((item) => item.trim())
+                          .where((item) => item.isNotEmpty)
+                          .take(4)
+                          .toList();
 
                       return Card(
                         clipBehavior: Clip.antiAlias,
@@ -73,7 +79,6 @@ class ProjectsScreen extends StatelessWidget {
                                     )
                                   : _imagePlaceholder(theme),
                             ),
-
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(18),
@@ -88,8 +93,7 @@ class ProjectsScreen extends StatelessWidget {
                                             project.title,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: theme
-                                                .textTheme.titleMedium
+                                            style: theme.textTheme.titleMedium
                                                 ?.copyWith(
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -110,9 +114,7 @@ class ProjectsScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-
                                     const SizedBox(height: 8),
-
                                     Text(
                                       project.description,
                                       maxLines: 3,
@@ -120,28 +122,25 @@ class ProjectsScreen extends StatelessWidget {
                                       style: theme.textTheme.bodySmall
                                           ?.copyWith(height: 1.5),
                                     ),
-
                                     const Spacer(),
-
                                     Wrap(
                                       spacing: 6,
                                       runSpacing: 6,
-                                      children: project.technologies
-                                          .take(4)
-                                          .map(
-                                            (technology) => Chip(
-                                              label: Text(
-                                                technology,
-                                                style: const TextStyle(
-                                                  fontSize: 10,
-                                                ),
+                                      children: technologies.map(
+                                        (technology) {
+                                          return Chip(
+                                            label: Text(
+                                              technology,
+                                              style: const TextStyle(
+                                                fontSize: 10,
                                               ),
-                                              visualDensity:
-                                                  VisualDensity.compact,
-                                              padding: EdgeInsets.zero,
                                             ),
-                                          )
-                                          .toList(),
+                                            visualDensity:
+                                                VisualDensity.compact,
+                                            padding: EdgeInsets.zero,
+                                          );
+                                        },
+                                      ).toList(),
                                     ),
                                   ],
                                 ),
