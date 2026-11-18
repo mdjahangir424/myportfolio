@@ -4,75 +4,95 @@ import 'package:flutter/material.dart';
 class SkillData {
   final String name;
   final String category;
-  final String level;
   final IconData icon;
+  final String level;
 
   const SkillData({
     required this.name,
     required this.category,
-    required this.level,
     required this.icon,
+    required this.level,
   });
 }
 
 const List<SkillData> skillsData = [
-  // Flutter Development
+  // Flutter & Mobile Development
   SkillData(
     name: 'Flutter',
     category: 'Mobile Development',
-    level: 'Advanced',
     icon: Icons.phone_android,
+    level: 'Experience details to be updated',
   ),
   SkillData(
     name: 'Dart',
     category: 'Mobile Development',
-    level: 'Intermediate',
     icon: Icons.code,
+    level: 'Experience details to be updated',
   ),
   SkillData(
-    name: 'Android Development',
+    name: 'Android App Development',
     category: 'Mobile Development',
-    level: 'Intermediate',
     icon: Icons.android,
+    level: 'Experience details to be updated',
   ),
 
   // Backend & Database
   SkillData(
     name: 'Firebase',
     category: 'Backend & Database',
-    level: 'Intermediate',
     icon: Icons.local_fire_department,
+    level: 'Experience details to be updated',
   ),
   SkillData(
     name: 'Cloud Firestore',
     category: 'Backend & Database',
-    level: 'Intermediate',
-    icon: Icons.cloud,
+    icon: Icons.storage,
+    level: 'Experience details to be updated',
   ),
   SkillData(
-    name: 'GitHub',
+    name: 'REST API',
     category: 'Backend & Database',
-    level: 'Intermediate',
-    icon: Icons.code,
+    icon: Icons.api,
+    level: 'Experience details to be updated',
   ),
 
   // AI & Automation
   SkillData(
     name: 'AI Agent Development',
     category: 'AI & Automation',
-    level: 'Intermediate',
     icon: Icons.smart_toy,
+    level: 'Experience details to be updated',
   ),
   SkillData(
-    name: 'AI Automation',
+    name: 'n8n Workflow Automation',
     category: 'AI & Automation',
-    level: 'Intermediate',
-    icon: Icons.auto_awesome,
-  ),
-  SkillData(
-    name: 'Workflow Automation',
-    category: 'AI & Automation',
-    level: 'Intermediate',
     icon: Icons.account_tree,
+    level: 'Advanced',
+  ),
+  SkillData(
+    name: 'OpenAI API',
+    category: 'AI & Automation',
+    icon: Icons.psychology,
+    level: 'Experience details to be updated',
+  ),
+  SkillData(
+    name: 'Google Gemini API',
+    category: 'AI & Automation',
+    icon: Icons.auto_awesome,
+    level: 'Experience details to be updated',
+  ),
+  SkillData(
+    name: 'Webhooks',
+    category: 'AI & Automation',
+    icon: Icons.webhook,
+    level: 'Experience details to be updated',
+  ),
+
+  // Development Tools
+  SkillData(
+    name: 'Git & GitHub',
+    category: 'Development Tools',
+    icon: Icons.code_outlined,
+    level: 'Experience details to be updated',
   ),
 ];
