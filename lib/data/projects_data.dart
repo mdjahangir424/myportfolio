@@ -23,7 +23,7 @@ const List<ProjectModel> projectsData = [
     technologies:
         'Flutter, Dart, Firebase',
     image: 'assets/images/hisab_khata.png',
-    githubUrl: '',
+    githubUrl: 'https://github.com/mdjahangir424/Bazar-',
     liveUrl: '',
   ),
   ProjectModel(
