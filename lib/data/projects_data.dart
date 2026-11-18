@@ -47,7 +47,7 @@ const List<ProjectModel> projectsData = [
     technologies:
         'Flutter, Dart, Mobile UI Design',
     image: 'assets/images/food_delivery.png',
-    githubUrl: '',
+    githubUrl: 'https://github.com/mdjahangir424/Food-delivery-app-',
     liveUrl: '',
   ),
 ];
