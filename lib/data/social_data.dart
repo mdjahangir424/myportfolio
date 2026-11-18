@@ -35,6 +35,11 @@ const List<SocialData> socialData = [
     url: 'https://youtube.com/@voiceofjahangiralam?si=OzLaQ7OFWfDBes0H',
   ),
   SocialData(
+    name: 'Fiverr',
+    icon: Icons.work_outline,
+    url: 'https://www.fiverr.com/s/yeW4Qb5',
+  ),
+  SocialData(
     name: 'Email',
     icon: Icons.email_outlined,
     url: 'mailto:mdjahangir424@outlook.com',
