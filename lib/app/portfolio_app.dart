@@ -1,5 +1,8 @@
 
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_theme.dart';
 import '../widgets/navbar.dart';
@@ -22,6 +25,36 @@ class PortfolioApp extends StatefulWidget {
 class _PortfolioAppState extends State<PortfolioApp> {
   bool _isDarkMode = false;
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadThemePreference();
+  }
+
+  // Load Saved Theme
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final savedTheme = prefs.getBool('isDarkMode') ?? false;
+
+    if (!mounted) return;
+
+    setState(() {
+      _isDarkMode = savedTheme;
+    });
+  }
+
+  // Save Theme Preference
+  Future<void> _saveThemePreference(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', value);
+  }
+
+  // Full Website Refresh
+  Future<void> _refreshPage() async {
+    html.window.location.reload();
+  }
 
   void _navigateTo(String item) {
     final index = PortfolioNavbar.navItems.indexOf(item);
@@ -73,7 +106,8 @@ class _PortfolioAppState extends State<PortfolioApp> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode:
+          _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: Scaffold(
         body: SafeArea(
           child: Column(
@@ -84,16 +118,41 @@ class _PortfolioAppState extends State<PortfolioApp> {
                   setState(() {
                     _isDarkMode = value;
                   });
+
+                  _saveThemePreference(value);
                 },
                 onNavigate: _navigateTo,
               ),
+
               Expanded(
-                child: _getSelectedScreen(),
+                child: ScrollConfiguration(
+                  behavior: const _RefreshScrollBehavior(),
+                  child: RefreshIndicator(
+                    onRefresh: _refreshPage,
+                    color: Theme.of(context).colorScheme.primary,
+                    backgroundColor: Theme.of(context).cardColor,
+                    strokeWidth: 3,
+                    displacement: 55,
+                    child: _getSelectedScreen(),
+                  ),
+                ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+// Allows Pull-to-Refresh even when content is shorter.
+class _RefreshScrollBehavior extends MaterialScrollBehavior {
+  const _RefreshScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const AlwaysScrollableScrollPhysics(
+      parent: BouncingScrollPhysics(),
     );
   }
 }
