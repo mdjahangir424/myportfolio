@@ -44,8 +44,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter Web
-        run: flutter build web --release --base-href /portfolio/
-
+        run: flutter build web --release --base-href /myportfolio/
       - name: Add No Jekyll File
         run: touch build/web/.nojekyll
 
