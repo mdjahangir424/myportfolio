@@ -2,9 +2,15 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/section_title.dart';
+import '../widgets/footer.dart';
 
 class AutomationScreen extends StatelessWidget {
-  const AutomationScreen({super.key});
+  final ValueChanged<String> onNavigate;
+
+  const AutomationScreen({
+    super.key,
+    required this.onNavigate,
+  });
 
   static const List<Map<String, dynamic>> automationServices = [
     {
@@ -58,102 +64,121 @@ class AutomationScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 40,
-      ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Column(
-            children: [
-              const SectionTitle(
-                title: 'AI & Automation',
-                subtitle:
-                    'Building smarter workflows with AI agents, n8n, APIs, '
-                    'and intelligent automation.',
-              ),
-              const SizedBox(height: 40),
-
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final count = constraints.maxWidth >= 900
-                      ? 2
-                      : 1;
-
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: automationServices.length,
-                    gridDelegate:
-                        SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: count,
-                      crossAxisSpacing: 22,
-                      mainAxisSpacing: 22,
-                      mainAxisExtent: 245,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 40,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 1200,
+                ),
+                child: Column(
+                  children: [
+                    const SectionTitle(
+                      title: 'AI & Automation',
+                      subtitle:
+                          'Building smarter workflows with AI agents, n8n, APIs, '
+                          'and intelligent automation.',
                     ),
-                    itemBuilder: (context, index) {
-                      final item = automationServices[index];
+                    const SizedBox(height: 40),
 
-                      return Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(
-                            color: theme.dividerColor.withValues(
-                              alpha: 0.15,
-                            ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final count =
+                            constraints.maxWidth >= 900 ? 2 : 1;
+
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics:
+                              const NeverScrollableScrollPhysics(),
+                          itemCount: automationServices.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: count,
+                            crossAxisSpacing: 22,
+                            mainAxisSpacing: 22,
+                            mainAxisExtent: 245,
                           ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              item['icon'] as IconData,
-                              size: 34,
-                              color: theme.colorScheme.primary,
-                            ),
-                            const SizedBox(height: 14),
-                            Text(
-                              item['title'] as String,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
+                          itemBuilder: (context, index) {
+                            final item = automationServices[index];
+
+                            return Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: BoxDecoration(
+                                color: theme.cardColor,
+                                borderRadius:
+                                    BorderRadius.circular(18),
+                                border: Border.all(
+                                  color: theme.dividerColor.withValues(
+                                    alpha: 0.15,
+                                  ),
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              item['description'] as String,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.bodySmall,
-                            ),
-                            const Spacer(),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 6,
-                              children: (item['features'] as List<String>)
-                                  .map(
-                                    (feature) => Chip(
-                                      label: Text(
-                                        feature,
-                                        style: const TextStyle(fontSize: 10),
-                                      ),
-                                      visualDensity: VisualDensity.compact,
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    item['icon'] as IconData,
+                                    size: 34,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Text(
+                                    item['title'] as String,
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    item['description'] as String,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: theme.textTheme.bodySmall,
+                                  ),
+                                  const Spacer(),
+                                  Wrap(
+                                    spacing: 8,
+                                    runSpacing: 6,
+                                    children:
+                                        (item['features'] as List<String>)
+                                            .map(
+                                      (feature) => Chip(
+                                        label: Text(
+                                          feature,
+                                          style: const TextStyle(
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        visualDensity:
+                                            VisualDensity.compact,
+                                      ),
+                                    ).toList(),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
-        ),
+
+          // Shared Footer
+          PortfolioFooter(
+            onNavigate: onNavigate,
+          ),
+        ],
       ),
     );
   }
