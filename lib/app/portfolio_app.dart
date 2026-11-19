@@ -82,16 +82,17 @@ class _PortfolioAppState extends State<PortfolioApp> {
   );
 
       case 3:
-        return const ServicesScreen();
-
+  return ServicesScreen(
+    onNavigate: _navigateTo,
+  );
       case 4:
-        return const ProjectsScreen();
+        return  ProjectsScreen(onNavigate: _navigateTo,);
 
       case 5:
-        return const AutomationScreen();
+        return  AutomationScreen(onNavigate: _navigateTo,);
 
       case 6:
-        return const ContactScreen();
+        return  ContactScreen(onNavigate: _navigateTo,);
 
       default:
         return HomeScreen(
