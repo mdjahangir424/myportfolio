@@ -28,22 +28,20 @@ class PortfolioApp extends StatefulWidget {
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
-       late bool _isDarkMode;
-       int _selectedIndex = 0;
+  late bool _isDarkMode;
+  int _selectedIndex = 0;
 
-@override
-void initState() {
-  super.initState();
-  _isDarkMode = widget.initialDarkMode;
-}
+  @override
+  void initState() {
+    super.initState();
+    _isDarkMode = widget.initialDarkMode;
+  }
 
-  // Save Theme Preference
   Future<void> _saveThemePreference(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDarkMode', value);
   }
 
-  // Full Website Refresh
   Future<void> _refreshPage() async {
     html.window.location.reload();
   }
@@ -69,24 +67,33 @@ void initState() {
       case 0:
         return HomeScreen(
           onViewProjects: () => _navigateToIndex(4),
-          onContact: () => _navigateToIndex(5),
+          onContact: () => _navigateToIndex(6),
+          onNavigate: _navigateTo,
         );
+
       case 1:
         return const AboutScreen();
+
       case 2:
         return const SkillsScreen();
+
       case 3:
         return const ServicesScreen();
+
       case 4:
         return const ProjectsScreen();
+
       case 5:
-        return const ContactScreen();
-      case 6:
         return const AutomationScreen();
+
+      case 6:
+        return const ContactScreen();
+
       default:
         return HomeScreen(
           onViewProjects: () => _navigateToIndex(4),
-          onContact: () => _navigateToIndex(5),
+          onContact: () => _navigateToIndex(6),
+          onNavigate: _navigateTo,
         );
     }
   }
@@ -137,7 +144,6 @@ void initState() {
   }
 }
 
-// Allows Pull-to-Refresh even when content is shorter.
 class _RefreshScrollBehavior extends MaterialScrollBehavior {
   const _RefreshScrollBehavior();
 
