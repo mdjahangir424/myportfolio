@@ -1,0 +1,5 @@
+
+User-agent: *
+Allow: /
+
+Sitemap: https://mdjahangir424.github.io/myportfolio/sitemap.xml
