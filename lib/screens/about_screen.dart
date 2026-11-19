@@ -1,9 +1,16 @@
 
 import 'package:flutter/material.dart';
+
 import '../widgets/section_title.dart';
+import '../widgets/shared_screen_layout.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+  const AboutScreen({
+    super.key,
+    required this.onNavigate,
+  });
+
+  final ValueChanged<String> onNavigate;
 
   static const String profileImage =
       'assets/images/jahangir_profile.png';
@@ -13,7 +20,8 @@ class AboutScreen extends StatelessWidget {
     final isDark =
         Theme.of(context).brightness == Brightness.dark;
 
-    return SingleChildScrollView(
+    return SharedScreenLayout(
+      onNavigate: onNavigate,
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
         vertical: 70,
@@ -36,10 +44,8 @@ class AboutScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   final isMobile = constraints.maxWidth < 750;
 
-                  final profile = _buildProfileImage(
-                    context,
-                    isDark,
-                  );
+                  final profile =
+                      _buildProfileImage(context, isDark);
 
                   final introduction =
                       _buildIntroduction(context);
@@ -95,16 +101,11 @@ class AboutScreen extends StatelessWidget {
 
     return Center(
       child: Container(
-        constraints: const BoxConstraints(
-          maxWidth: 390,
-        ),
+        constraints: const BoxConstraints(maxWidth: 390),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              colors.primary,
-              colors.tertiary,
-            ],
+            colors: [colors.primary, colors.tertiary],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -177,10 +178,7 @@ class AboutScreen extends StatelessWidget {
 
         const SizedBox(height: 22),
 
-        Text(
-          'Hello, I am',
-          style: theme.textTheme.titleLarge,
-        ),
+        Text('Hello, I am', style: theme.textTheme.titleLarge),
 
         const SizedBox(height: 5),
 
