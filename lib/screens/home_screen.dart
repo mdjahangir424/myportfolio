@@ -1,22 +1,25 @@
 
-
 import 'package:flutter/material.dart';
 
 import '../widgets/hero_section.dart';
+import '../widgets/shared_screen_layout.dart';
 
 class HomeScreen extends StatelessWidget {
   final VoidCallback onViewProjects;
   final VoidCallback onContact;
+  final ValueChanged<String> onNavigate;
 
   const HomeScreen({
     super.key,
     required this.onViewProjects,
     required this.onContact,
+    required this.onNavigate,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return SharedScreenLayout(
+      onNavigate: onNavigate,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
