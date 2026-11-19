@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../data/skills_data.dart';
 import '../widgets/section_title.dart';
+import '../widgets/shared_screen_layout.dart';
 
 class SkillsScreen extends StatelessWidget {
-  const SkillsScreen({super.key});
+  final ValueChanged<String> onNavigate;
+
+  const SkillsScreen({
+    super.key,
+    required this.onNavigate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,8 @@ class SkillsScreen extends StatelessWidget {
         .toSet()
         .toList();
 
-    return SingleChildScrollView(
+    return SharedScreenLayout(
+      onNavigate: onNavigate,
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
         vertical: 70,
