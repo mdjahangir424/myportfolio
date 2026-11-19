@@ -50,13 +50,15 @@ class _PortfolioAppState extends State<PortfolioApp> {
     final index = PortfolioNavbar.navItems.indexOf(item);
 
     if (index >= 0) {
-      setState(() {
-        _selectedIndex = index;
-      });
+      _navigateToIndex(index);
     }
   }
 
   void _navigateToIndex(int index) {
+    if (index < 0 || index > 6 || index == _selectedIndex) {
+      return;
+    }
+
     setState(() {
       _selectedIndex = index;
     });
@@ -72,27 +74,34 @@ class _PortfolioAppState extends State<PortfolioApp> {
         );
 
       case 1:
-  return AboutScreen(
-    onNavigate: _navigateTo,
-  );
+        return AboutScreen(
+          onNavigate: _navigateTo,
+        );
 
       case 2:
-  return SkillsScreen(
-    onNavigate: _navigateTo,
-  );
+        return SkillsScreen(
+          onNavigate: _navigateTo,
+        );
 
       case 3:
-  return ServicesScreen(
-    onNavigate: _navigateTo,
-  );
+        return ServicesScreen(
+          onNavigate: _navigateTo,
+        );
+
       case 4:
-        return  ProjectsScreen(onNavigate: _navigateTo,);
+        return ProjectsScreen(
+          onNavigate: _navigateTo,
+        );
 
       case 5:
-        return  AutomationScreen(onNavigate: _navigateTo,);
+        return AutomationScreen(
+          onNavigate: _navigateTo,
+        );
 
       case 6:
-        return  ContactScreen(onNavigate: _navigateTo,);
+        return ContactScreen(
+          onNavigate: _navigateTo,
+        );
 
       default:
         return HomeScreen(
@@ -110,40 +119,50 @@ class _PortfolioAppState extends State<PortfolioApp> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode:
-          _isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              PortfolioNavbar(
-                isDarkMode: _isDarkMode,
-                onThemeChanged: (value) {
-                  setState(() {
-                    _isDarkMode = value;
-                  });
+      themeMode: _isDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
 
-                  _saveThemePreference(value);
-                },
-                onNavigate: _navigateTo,
-              ),
+      home: Builder(
+        builder: (context) {
+          return Scaffold(
+            body: SafeArea(
+              child: Column(
+                children: [
+                  PortfolioNavbar(
+                    isDarkMode: _isDarkMode,
+                    onThemeChanged: (value) {
+                      if (_isDarkMode == value) return;
 
-              Expanded(
-                child: ScrollConfiguration(
-                  behavior: const _RefreshScrollBehavior(),
-                  child: RefreshIndicator(
-                    onRefresh: _refreshPage,
-                    color: Theme.of(context).colorScheme.primary,
-                    backgroundColor: Theme.of(context).cardColor,
-                    strokeWidth: 3,
-                    displacement: 55,
-                    child: _getSelectedScreen(),
+                      setState(() {
+                        _isDarkMode = value;
+                      });
+
+                      _saveThemePreference(value);
+                    },
+                    onNavigate: _navigateTo,
                   ),
-                ),
+
+                  Expanded(
+                    child: ScrollConfiguration(
+                      behavior: const _RefreshScrollBehavior(),
+                      child: RefreshIndicator(
+                        onRefresh: _refreshPage,
+                        color: Theme.of(context)
+                            .colorScheme.primary,
+                        backgroundColor: Theme.of(context)
+                            .cardColor,
+                        strokeWidth: 3,
+                        displacement: 55,
+                        child: _getSelectedScreen(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
