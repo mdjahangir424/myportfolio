@@ -72,7 +72,9 @@ class _PortfolioAppState extends State<PortfolioApp> {
         );
 
       case 1:
-        return const AboutScreen();
+  return AboutScreen(
+    onNavigate: _navigateTo,
+  );
 
       case 2:
         return const SkillsScreen();
