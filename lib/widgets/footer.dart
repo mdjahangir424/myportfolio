@@ -12,9 +12,7 @@ class PortfolioFooter extends StatelessWidget {
     required this.onNavigate,
   });
 
-  static const Color _backgroundColor = Color(0xFF0B1120);
   static const Color _accentColor = Color(0xFF3B82F6);
-  static const Color _mutedColor = Color(0xFF94A3B8);
 
   Future<void> _openUrl(String url) async {
     final uri = Uri.parse(url);
@@ -25,13 +23,16 @@ class PortfolioFooter extends StatelessWidget {
     );
   }
 
-  Widget _footerHeading(String title) {
+  Widget _footerHeading(
+    String title,
+    Color textColor,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: textColor,
           fontSize: 17,
           fontWeight: FontWeight.bold,
         ),
@@ -39,15 +40,19 @@ class PortfolioFooter extends StatelessWidget {
     );
   }
 
-  Widget _footerLink(String title, {VoidCallback? onTap}) {
+  Widget _footerLink(
+    String title,
+    Color textColor, {
+    VoidCallback? onTap,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: onTap,
         child: Text(
           title,
-          style: const TextStyle(
-            color: _mutedColor,
+          style: TextStyle(
+            color: textColor,
             fontSize: 14,
           ),
         ),
@@ -58,12 +63,13 @@ class PortfolioFooter extends StatelessWidget {
   Widget _footerColumn({
     required String title,
     required List<Widget> children,
+    required Color headingColor,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _footerHeading(title),
+        _footerHeading(title, headingColor),
         ...children,
       ],
     );
@@ -71,6 +77,25 @@ class PortfolioFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final backgroundColor = isDark
+        ? const Color(0xFF0B1120)
+        : const Color(0xFFF1F5F9);
+
+    final headingColor = isDark
+        ? Colors.white
+        : const Color(0xFF0F172A);
+
+    final textColor = isDark
+        ? const Color(0xFF94A3B8)
+        : const Color(0xFF475569);
+
+    final dividerColor = isDark
+        ? const Color(0xFF263247)
+        : const Color(0xFFCBD5E1);
+
     final quickLinks = [
       'Home',
       'About',
@@ -101,7 +126,7 @@ class PortfolioFooter extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: _backgroundColor,
+      color: backgroundColor,
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
         vertical: 55,
@@ -130,9 +155,11 @@ class PortfolioFooter extends StatelessWidget {
                         width: itemWidth,
                         child: _footerColumn(
                           title: 'Quick Links',
+                          headingColor: headingColor,
                           children: quickLinks.map((item) {
                             return _footerLink(
                               item,
+                              textColor,
                               onTap: () => onNavigate(item),
                             );
                           }).toList(),
@@ -143,8 +170,12 @@ class PortfolioFooter extends StatelessWidget {
                         width: itemWidth,
                         child: _footerColumn(
                           title: 'My Expertise',
+                          headingColor: headingColor,
                           children: expertise.map((item) {
-                            return _footerLink(item);
+                            return _footerLink(
+                              item,
+                              textColor,
+                            );
                           }).toList(),
                         ),
                       ),
@@ -153,8 +184,12 @@ class PortfolioFooter extends StatelessWidget {
                         width: itemWidth,
                         child: _footerColumn(
                           title: 'Services',
+                          headingColor: headingColor,
                           children: services.map((item) {
-                            return _footerLink(item);
+                            return _footerLink(
+                              item,
+                              textColor,
+                            );
                           }).toList(),
                         ),
                       ),
@@ -163,6 +198,7 @@ class PortfolioFooter extends StatelessWidget {
                         width: itemWidth,
                         child: _footerColumn(
                           title: 'Connect With Me',
+                          headingColor: headingColor,
                           children: socialLinks.map((item) {
                             return Padding(
                               padding: const EdgeInsets.only(
@@ -181,8 +217,8 @@ class PortfolioFooter extends StatelessWidget {
                                     const SizedBox(width: 10),
                                     Text(
                                       item.name,
-                                      style: const TextStyle(
-                                        color: _mutedColor,
+                                      style: TextStyle(
+                                        color: textColor,
                                         fontSize: 14,
                                       ),
                                     ),
@@ -200,8 +236,8 @@ class PortfolioFooter extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              const Divider(
-                color: Color(0xFF263247),
+              Divider(
+                color: dividerColor,
                 thickness: 1,
               ),
 
@@ -213,22 +249,22 @@ class PortfolioFooter extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Let's Work Together",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: headingColor,
                           fontSize: 21,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 7),
+                      const SizedBox(height: 7),
                       Text(
                         'Have a project in mind? Get in touch with me.',
                         style: TextStyle(
-                          color: _mutedColor,
+                          color: textColor,
                           fontSize: 14,
                         ),
                       ),
@@ -246,7 +282,9 @@ class PortfolioFooter extends StatelessWidget {
                         icon: const Icon(Icons.email_outlined),
                         label: const Text('Email Me'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.white,
+                          foregroundColor: isDark
+                              ? Colors.white
+                              : const Color(0xFF1E293B),
                           side: const BorderSide(
                             color: _accentColor,
                           ),
@@ -279,19 +317,19 @@ class PortfolioFooter extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              const Divider(
-                color: Color(0xFF263247),
+              Divider(
+                color: dividerColor,
                 thickness: 1,
               ),
 
               const SizedBox(height: 20),
 
-              const Center(
+              Center(
                 child: Text(
                   '© 2026 Md Jahangir Alam. All Rights Reserved.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: _mutedColor,
+                    color: textColor,
                     fontSize: 13,
                   ),
                 ),
