@@ -14,13 +14,14 @@ class PortfolioNavbar extends StatelessWidget {
   });
 
   static const List<String> navItems = [
-    'Home',
-    'About',
-    'Skills',
-    'Services',
-    'Projects',
-    'Contact',
-  ];
+  'Home',
+  'About',
+  'Skills',
+  'Services',
+  'Projects',
+  'Automation',
+  'Contact',
+];
 
   @override
   Widget build(BuildContext context) {
