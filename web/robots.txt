@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mdjahangir424.github.io/myportfolio/sitemap.xml
+Sitemap: https://myportfolio-f6cfb.web.app/sitemap.xml
