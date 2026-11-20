@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/hero_section.dart';
+import '../widgets/featured_projects_carousel.dart';
 import '../widgets/shared_screen_layout.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -95,6 +96,12 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+
+          const SizedBox(height: 28),
+
+          FeaturedProjectsCarousel(
+            onViewProjects: onViewProjects,
           ),
 
           const SizedBox(height: 60),
