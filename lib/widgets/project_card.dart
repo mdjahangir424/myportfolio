@@ -62,9 +62,11 @@ class ProjectCard extends StatelessWidget {
           SizedBox(
             height: 185,
             width: double.infinity,
-            child: image.toLowerCase().endsWith('.svg')
-                ? SvgPicture.asset(image, fit: BoxFit.cover, placeholderBuilder: (_) => imageFallback())
-                : Image.asset(image, fit: BoxFit.cover, errorBuilder: (_, __, ___) => imageFallback()),
+            child: _HoverZoomImage(
+              child: image.toLowerCase().endsWith('.svg')
+                  ? SvgPicture.asset(image, fit: BoxFit.cover, placeholderBuilder: (_) => imageFallback())
+                  : Image.asset(image, fit: BoxFit.cover, errorBuilder: (_, __, ___) => imageFallback()),
+            ),
           ),
           Expanded(
             child: Padding(
@@ -128,6 +130,35 @@ class ProjectCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HoverZoomImage extends StatefulWidget {
+  final Widget child;
+
+  const _HoverZoomImage({required this.child});
+
+  @override
+  State<_HoverZoomImage> createState() => _HoverZoomImageState();
+}
+
+class _HoverZoomImageState extends State<_HoverZoomImage> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: ClipRect(
+        child: AnimatedScale(
+          scale: _isHovered ? 1.08 : 1.0,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+          child: widget.child,
+        ),
       ),
     );
   }
