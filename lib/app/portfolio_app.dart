@@ -254,6 +254,7 @@ class _PortfolioShellState extends State<_PortfolioShell> {
       key: _scaffoldKey,
       endDrawer: PortfolioNavigationDrawer(
         onNavigate: widget.onNavigate,
+        onLogoPressed: _reloadToHome,
       ),
       drawerEnableOpenDragGesture: false,
       body: SafeArea(
