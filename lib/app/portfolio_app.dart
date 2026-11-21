@@ -237,8 +237,10 @@ class _PortfolioShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
+      key: scaffoldKey,
       endDrawer: PortfolioNavigationDrawer(
         onNavigate: onNavigate,
       ),
@@ -250,6 +252,7 @@ class _PortfolioShell extends StatelessWidget {
               isDarkMode: theme.brightness == Brightness.dark,
               onThemeChanged: onThemeChanged,
               onNavigate: onNavigate,
+              onMenuPressed: () => scaffoldKey.currentState?.openEndDrawer(),
             ),
             Expanded(
               child: ScrollConfiguration(
