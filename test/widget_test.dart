@@ -53,8 +53,6 @@ void main() {
       }
     });
   });
-}
-
 
   group('Mobile navigation', () {
     testWidgets('opens the end drawer and navigates after selection',
@@ -95,3 +93,4 @@ void main() {
       expect(find.text('Portfolio Navigation'), findsNothing);
     });
   });
+}
