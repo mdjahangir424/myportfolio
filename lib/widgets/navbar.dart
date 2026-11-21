@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../data/social_data.dart';
 
 class PortfolioNavbar extends StatelessWidget {
   final bool isDarkMode;
@@ -174,6 +177,11 @@ class PortfolioNavigationDrawer extends StatelessWidget {
     required this.onLogoPressed,
   });
 
+  Future<void> _openUrl(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
   static const List<IconData> _icons = [
     Icons.home_outlined,
     Icons.person_outline_rounded,
@@ -288,7 +296,29 @@ class PortfolioNavigationDrawer extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(22, 12, 22, 18),
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                children: socialData
+                    .where((item) =>
+                        item.name != 'Email' && item.name != 'WhatsApp')
+                    .map(
+                      (item) => IconButton(
+                        tooltip: item.name,
+                        onPressed: () => _openUrl(item.url),
+                        icon: Icon(
+                          item.icon,
+                          color: colors.primary,
+                          size: 21,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(22, 4, 22, 18),
               child: Text(
                 '© 2026 Md Jahangir Alam',
                 textAlign: TextAlign.center,
