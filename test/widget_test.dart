@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio/data/projects_data.dart';
 import 'package:portfolio/data/social_data.dart';
+import 'package:portfolio/widgets/navbar.dart';
 
 void main() {
   group('projectsData', () {
@@ -52,3 +54,44 @@ void main() {
     });
   });
 }
+
+
+  group('Mobile navigation', () {
+    testWidgets('opens the end drawer and navigates after selection',
+        (tester) async {
+      final scaffoldKey = GlobalKey<ScaffoldState>();
+      String? selectedItem;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            key: scaffoldKey,
+            endDrawer: PortfolioNavigationDrawer(
+              onNavigate: (item) => selectedItem = item,
+            ),
+            body: Align(
+              alignment: Alignment.topRight,
+              child: PortfolioNavbar(
+                isDarkMode: false,
+                onThemeChanged: (_) {},
+                onNavigate: (_) {},
+                onMenuPressed: () =>
+                    scaffoldKey.currentState?.openEndDrawer(),
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byTooltip('Open navigation menu'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Portfolio Navigation'), findsOneWidget);
+
+      await tester.tap(find.widgetWithText(ListTile, 'Projects'));
+      await tester.pumpAndSettle();
+
+      expect(selectedItem, 'Projects');
+      expect(find.text('Portfolio Navigation'), findsNothing);
+    });
+  });
