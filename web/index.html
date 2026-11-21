@@ -20,13 +20,13 @@
   <meta property="og:url" content="https://myportfolio-f6cfb.web.app/">
   <meta property="og:site_name" content="Md Jahangir Alam Portfolio">
   <meta property="og:locale" content="en_US">
-  <meta property="og:image" content="https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile.png">
+  <meta property="og:image" content="https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile_og.jpg">
   <meta property="og:image:alt" content="Md Jahangir Alam — Flutter Developer and AI Automation Specialist">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Md Jahangir Alam | Flutter Developer & AI Automation Specialist">
   <meta name="twitter:description" content="Explore Flutter applications, web projects, AI agents, and automation solutions by Md Jahangir Alam.">
-  <meta name="twitter:image" content="https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile.png">
+  <meta name="twitter:image" content="https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile_og.jpg">
 
   <script type="application/ld+json">
   {
@@ -38,7 +38,7 @@
       "Flutter Developer",
       "AI Automation Specialist"
     ],
-    "image": "https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile.png",
+    "image": "https://myportfolio-f6cfb.web.app/assets/assets/images/jahangir_profile_og.jpg",
     "description": "Flutter Developer and AI Automation Specialist building mobile applications, web projects, and AI-powered automation solutions.",
     "knowsAbout": [
       "Flutter",
@@ -78,9 +78,50 @@
     html {
       background-color: #F8FAFC;
     }
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 15px;
+      color: #64748B;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+    #app-loader.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #app-loader .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(37, 99, 235, 0.2);
+      border-top-color: #2563EB;
+      border-radius: 50%;
+      animation: app-spin 0.9s linear infinite;
+    }
+    @keyframes app-spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+  <div id="app-loader">
+    <div class="spinner"></div>
+    <div>Loading portfolio...</div>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var loader = document.getElementById('app-loader');
+      if (!loader) return;
+      loader.classList.add('hide');
+      setTimeout(function () { loader.remove(); }, 400);
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
