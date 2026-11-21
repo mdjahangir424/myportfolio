@@ -12,7 +12,7 @@ class HeroSection extends StatelessWidget {
   });
 
   static const String profileImage =
-      'assets/images/jahangir_profile.png';
+      'assets/images/jahangir_profile.webp';
 
   @override
   Widget build(BuildContext context) {
