@@ -1,4 +1,3 @@
-
 name: Flutter Portfolio - Build and Deploy
 
 on:
@@ -42,6 +41,12 @@ jobs:
 
       - name: Install Dependencies
         run: flutter pub get
+
+      - name: Analyze code (fails only on errors)
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+
+      - name: Run tests
+        run: flutter test
 
       - name: Build Flutter Web
         run: flutter build web --release --base-href /myportfolio/
