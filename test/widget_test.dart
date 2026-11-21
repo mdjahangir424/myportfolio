@@ -59,6 +59,7 @@ void main() {
         (tester) async {
       final scaffoldKey = GlobalKey<ScaffoldState>();
       String? selectedItem;
+      var logoPressed = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -75,11 +76,15 @@ void main() {
                 onNavigate: (_) {},
                 onMenuPressed: () =>
                     scaffoldKey.currentState?.openEndDrawer(),
+                onLogoPressed: () => logoPressed = true,
               ),
             ),
           ),
         ),
       );
+
+      await tester.tap(find.text('Jahangir Alam'));
+      expect(logoPressed, isTrue);
 
       await tester.tap(find.byTooltip('Open navigation menu'));
       await tester.pumpAndSettle();

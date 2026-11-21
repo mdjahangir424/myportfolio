@@ -5,6 +5,7 @@ class PortfolioNavbar extends StatelessWidget {
   final ValueChanged<bool> onThemeChanged;
   final ValueChanged<String> onNavigate;
   final VoidCallback onMenuPressed;
+  final VoidCallback onLogoPressed;
 
   const PortfolioNavbar({
     super.key,
@@ -12,6 +13,7 @@ class PortfolioNavbar extends StatelessWidget {
     required this.onThemeChanged,
     required this.onNavigate,
     required this.onMenuPressed,
+    required this.onLogoPressed,
   });
 
   static const List<String> navItems = [
@@ -93,7 +95,7 @@ class PortfolioNavbar extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: () => onNavigate('Home'),
+      onTap: onLogoPressed,
       borderRadius: BorderRadius.circular(10),
       child: Row(
         mainAxisSize: MainAxisSize.min,

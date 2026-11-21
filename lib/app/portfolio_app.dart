@@ -182,6 +182,11 @@ class _PortfolioAppState extends State<PortfolioApp> {
     );
   }
 
+  void _reloadToHome() {
+    // document.baseURI respects Firebase '/' and GitHub Pages '/myportfolio/'.
+    web.window.location.assign(web.document.baseURI);
+  }
+
   void _navigateTo(String item) {
     final index = PortfolioNavbar.navItems.indexOf(item);
 
@@ -260,6 +265,7 @@ class _PortfolioShellState extends State<_PortfolioShell> {
               onNavigate: widget.onNavigate,
               onMenuPressed: () =>
                   _scaffoldKey.currentState?.openEndDrawer(),
+              onLogoPressed: _reloadToHome,
             ),
             Expanded(
               child: ScrollConfiguration(
