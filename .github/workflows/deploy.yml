@@ -1,6 +1,9 @@
 name: Flutter Portfolio - Build and Deploy
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
