@@ -4,12 +4,14 @@ class PortfolioNavbar extends StatelessWidget {
   final bool isDarkMode;
   final ValueChanged<bool> onThemeChanged;
   final ValueChanged<String> onNavigate;
+  final VoidCallback onMenuPressed;
 
   const PortfolioNavbar({
     super.key,
     required this.isDarkMode,
     required this.onThemeChanged,
     required this.onNavigate,
+    required this.onMenuPressed,
   });
 
   static const List<String> navItems = [
@@ -70,17 +72,13 @@ class PortfolioNavbar extends StatelessWidget {
               ] else ...[
                 _buildThemeButton(context),
                 const SizedBox(width: 8),
-                Builder(
-                  builder: (menuContext) => IconButton(
-                    tooltip: 'Open navigation menu',
-                    onPressed: () {
-                      Scaffold.of(menuContext).openEndDrawer();
-                    },
-                    icon: Icon(
-                      Icons.menu_rounded,
-                      color: colors.onSurface,
-                      size: 28,
-                    ),
+                IconButton(
+                  tooltip: 'Open navigation menu',
+                  onPressed: onMenuPressed,
+                  icon: Icon(
+                    Icons.menu_rounded,
+                    color: colors.onSurface,
+                    size: 28,
                   ),
                 ),
               ],
