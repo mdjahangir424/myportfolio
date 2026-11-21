@@ -219,7 +219,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
 }
 
 /// Navbar + pull-to-refresh around the current page.
-class _PortfolioShell extends StatelessWidget {
+class _PortfolioShell extends StatefulWidget {
   final ValueChanged<bool> onThemeChanged;
   final ValueChanged<String> onNavigate;
   final Widget child;
@@ -230,6 +230,13 @@ class _PortfolioShell extends StatelessWidget {
     required this.child,
   });
 
+  @override
+  State<_PortfolioShell> createState() => _PortfolioShellState();
+}
+
+class _PortfolioShellState extends State<_PortfolioShell> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Future<void> _refreshPage() async {
     web.window.location.reload();
   }
@@ -237,12 +244,11 @@ class _PortfolioShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       endDrawer: PortfolioNavigationDrawer(
-        onNavigate: onNavigate,
+        onNavigate: widget.onNavigate,
       ),
       drawerEnableOpenDragGesture: false,
       body: SafeArea(
@@ -250,9 +256,10 @@ class _PortfolioShell extends StatelessWidget {
           children: [
             PortfolioNavbar(
               isDarkMode: theme.brightness == Brightness.dark,
-              onThemeChanged: onThemeChanged,
-              onNavigate: onNavigate,
-              onMenuPressed: () => scaffoldKey.currentState?.openEndDrawer(),
+              onThemeChanged: widget.onThemeChanged,
+              onNavigate: widget.onNavigate,
+              onMenuPressed: () =>
+                  _scaffoldKey.currentState?.openEndDrawer(),
             ),
             Expanded(
               child: ScrollConfiguration(
@@ -263,7 +270,7 @@ class _PortfolioShell extends StatelessWidget {
                   backgroundColor: theme.cardColor,
                   strokeWidth: 3,
                   displacement: 55,
-                  child: child,
+                  child: widget.child,
                 ),
               ),
             ),
