@@ -8,12 +8,12 @@ import 'app_theme.dart';
 import '../widgets/navbar.dart';
 
 import '../screens/home_screen.dart';
-import '../screens/about_screen.dart';
-import '../screens/skills_screen.dart';
-import '../screens/services_screen.dart';
-import '../screens/projects_screen.dart';
-import '../screens/automation_screen.dart';
-import '../screens/contact_screen.dart';
+import '../screens/about_screen.dart' deferred as about;
+import '../screens/skills_screen.dart' deferred as skills;
+import '../screens/services_screen.dart' deferred as services;
+import '../screens/projects_screen.dart' deferred as projects;
+import '../screens/automation_screen.dart' deferred as automation;
+import '../screens/contact_screen.dart' deferred as contact;
 
 class PortfolioApp extends StatefulWidget {
   final bool initialDarkMode;
@@ -74,33 +74,57 @@ class _PortfolioAppState extends State<PortfolioApp> {
         );
 
       case 1:
-        return AboutScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('about'),
+          loadLibrary: about.loadLibrary,
+          builder: (_) => about.AboutScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       case 2:
-        return SkillsScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('skills'),
+          loadLibrary: skills.loadLibrary,
+          builder: (_) => skills.SkillsScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       case 3:
-        return ServicesScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('services'),
+          loadLibrary: services.loadLibrary,
+          builder: (_) => services.ServicesScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       case 4:
-        return ProjectsScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('projects'),
+          loadLibrary: projects.loadLibrary,
+          builder: (_) => projects.ProjectsScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       case 5:
-        return AutomationScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('automation'),
+          loadLibrary: automation.loadLibrary,
+          builder: (_) => automation.AutomationScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       case 6:
-        return ContactScreen(
-          onNavigate: _navigateTo,
+        return _DeferredScreen(
+          key: const ValueKey('contact'),
+          loadLibrary: contact.loadLibrary,
+          builder: (_) => contact.ContactScreen(
+            onNavigate: _navigateTo,
+          ),
         );
 
       default:
@@ -175,6 +199,53 @@ class _RefreshScrollBehavior extends MaterialScrollBehavior {
   ScrollPhysics getScrollPhysics(BuildContext context) {
     return const AlwaysScrollableScrollPhysics(
       parent: BouncingScrollPhysics(),
+    );
+  }
+}
+
+
+/// Loads a deferred library on first visit, then shows the screen.
+/// Give every instance a unique key so the future is not reused across pages.
+class _DeferredScreen extends StatefulWidget {
+  final Future<void> Function() loadLibrary;
+  final WidgetBuilder builder;
+
+  const _DeferredScreen({
+    super.key,
+    required this.loadLibrary,
+    required this.builder,
+  });
+
+  @override
+  State<_DeferredScreen> createState() => _DeferredScreenState();
+}
+
+class _DeferredScreenState extends State<_DeferredScreen> {
+  late final Future<void> _future = widget.loadLibrary();
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<void>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: Text(
+                'Could not load this page. Please refresh and try again.',
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          return widget.builder(context);
+        }
+
+        return const Center(child: CircularProgressIndicator());
+      },
     );
   }
 }
