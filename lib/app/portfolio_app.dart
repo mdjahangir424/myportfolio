@@ -239,6 +239,10 @@ class _PortfolioShell extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
+      endDrawer: PortfolioNavigationDrawer(
+        onNavigate: onNavigate,
+      ),
+      drawerEnableOpenDragGesture: false,
       body: SafeArea(
         child: Column(
           children: [
