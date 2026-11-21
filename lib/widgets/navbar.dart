@@ -166,10 +166,12 @@ class PortfolioNavbar extends StatelessWidget {
 /// Navigation panel displayed by the Scaffold's end drawer on mobile.
 class PortfolioNavigationDrawer extends StatelessWidget {
   final ValueChanged<String> onNavigate;
+  final VoidCallback onLogoPressed;
 
   const PortfolioNavigationDrawer({
     super.key,
     required this.onNavigate,
+    required this.onLogoPressed,
   });
 
   static const List<IconData> _icons = [
@@ -197,7 +199,10 @@ class PortfolioNavigationDrawer extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(22, 18, 16, 22),
               child: Row(
                 children: [
-                  Container(
+                  InkWell(
+                    onTap: onLogoPressed,
+                    borderRadius: BorderRadius.circular(13),
+                    child: Container(
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
@@ -214,6 +219,7 @@ class PortfolioNavigationDrawer extends StatelessWidget {
                       ),
                     ),
                   ),
+                  ),
                   const SizedBox(width: 13),
                   Expanded(
                     child: Column(
@@ -226,7 +232,7 @@ class PortfolioNavigationDrawer extends StatelessWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          'Portfolio Navigation',
+                          'Flutter Developer',
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: colors.onSurfaceVariant),
                         ),

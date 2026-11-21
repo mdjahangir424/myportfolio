@@ -322,7 +322,29 @@ class PortfolioFooter extends StatelessWidget {
                 thickness: 1,
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
+
+              // Social media shortcuts are kept directly above the copyright.
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: socialLinks.map((item) {
+                    return IconButton(
+                      tooltip: item.name,
+                      onPressed: () => _openUrl(item.url),
+                      icon: Icon(
+                        item.icon,
+                        color: _accentColor,
+                        size: 22,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              const SizedBox(height: 14),
 
               Center(
                 child: Text(

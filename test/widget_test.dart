@@ -60,6 +60,7 @@ void main() {
       final scaffoldKey = GlobalKey<ScaffoldState>();
       String? selectedItem;
       var logoPressed = false;
+      var drawerLogoPressed = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -67,6 +68,7 @@ void main() {
             key: scaffoldKey,
             endDrawer: PortfolioNavigationDrawer(
               onNavigate: (item) => selectedItem = item,
+              onLogoPressed: () => drawerLogoPressed = true,
             ),
             body: Align(
               alignment: Alignment.topRight,
@@ -89,13 +91,15 @@ void main() {
       await tester.tap(find.byTooltip('Open navigation menu'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Portfolio Navigation'), findsOneWidget);
+      expect(find.text('Flutter Developer'), findsOneWidget);
+      await tester.tap(find.text('JA').last);
+      expect(drawerLogoPressed, isTrue);
 
       await tester.tap(find.widgetWithText(ListTile, 'Projects'));
       await tester.pumpAndSettle();
 
       expect(selectedItem, 'Projects');
-      expect(find.text('Portfolio Navigation'), findsNothing);
+      expect(find.text('Flutter Developer'), findsNothing);
     });
   });
 }
