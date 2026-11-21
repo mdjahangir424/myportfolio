@@ -1,5 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../data/social_data.dart';
 
 class PortfolioNavbar extends StatelessWidget {
   final bool isDarkMode;
@@ -16,14 +18,234 @@ class PortfolioNavbar extends StatelessWidget {
   });
 
   static const List<String> navItems = [
-  'Home',
-  'About',
-  'Skills',
-  'Services',
-  'Projects',
-  'Automation',
-  'Contact',
-];
+    'Home',
+    'About',
+    'Skills',
+    'Services',
+    'Projects',
+    'Automation',
+    'Contact',
+  ];
+
+  Future<void> _openSocialLink(String url) async {
+    final uri = Uri.parse(url);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+
+  void _openMobileDrawer(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final colors = Theme.of(context).colorScheme;
+
+    showGeneralDialog<void>(
+      context: context,
+      barrierLabel: 'Navigation menu',
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.55),
+      transitionDuration: const Duration(milliseconds: 320),
+      pageBuilder: (dialogContext, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Material(
+            color: Theme.of(dialogContext).scaffoldBackgroundColor,
+            elevation: 20,
+            child: SafeArea(
+              child: SizedBox(
+                width: screenWidth < 420 ? screenWidth * 0.86 : 360,
+                height: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(22, 22, 16, 22),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: colors.primary,
+                              borderRadius: BorderRadius.circular(13),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              'JA',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 13),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Jahangir Alam',
+                                  style: TextStyle(
+                                    color: colors.onSurface,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  'Flutter Developer',
+                                  style: TextStyle(
+                                    color: colors.onSurface.withOpacity(0.6),
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Close menu',
+                            onPressed: () => Navigator.of(dialogContext).pop(),
+                            icon: Icon(Icons.close, color: colors.onSurface),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      height: 1,
+                      color: colors.outline.withOpacity(0.18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 12),
+                      child: Text(
+                        'MENU',
+                        style: TextStyle(
+                          color: colors.primary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.8,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 14),
+                        itemCount: navItems.length,
+                        separatorBuilder: (_, __) =>
+                            const SizedBox(height: 3),
+                        itemBuilder: (context, index) {
+                          final item = navItems[index];
+                          final icons = [
+                            Icons.home_rounded,
+                            Icons.person_outline_rounded,
+                            Icons.auto_awesome_outlined,
+                            Icons.design_services_outlined,
+                            Icons.work_outline_rounded,
+                            Icons.bolt_rounded,
+                            Icons.mail_outline_rounded,
+                          ];
+
+                          return ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            leading: Icon(
+                              icons[index],
+                              color: colors.primary,
+                              size: 21,
+                            ),
+                            title: Text(
+                              item,
+                              style: TextStyle(
+                                color: colors.onSurface,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                              ),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 14,
+                              color: colors.onSurface.withOpacity(0.38),
+                            ),
+                            onTap: () {
+                              Navigator.of(dialogContext).pop();
+                              onNavigate(item);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    Divider(
+                      height: 1,
+                      color: colors.outline.withOpacity(0.18),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 18, 24, 10),
+                      child: Text(
+                        'CONNECT WITH ME',
+                        style: TextStyle(
+                          color: colors.onSurface.withOpacity(0.58),
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.4,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 22),
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: socialData
+                            .where((item) =>
+                                item.name != 'Email' &&
+                                item.name != 'WhatsApp')
+                            .map(
+                              (item) => Tooltip(
+                                message: item.name,
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(12),
+                                  onTap: () => _openSocialLink(item.url),
+                                  child: Container(
+                                    width: 42,
+                                    height: 42,
+                                    decoration: BoxDecoration(
+                                      color: colors.primary.withOpacity(0.10),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Icon(
+                                      item.icon,
+                                      color: colors.primary,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curved = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+          reverseCurve: Curves.easeInCubic,
+        );
+
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,23 +294,15 @@ class PortfolioNavbar extends StatelessWidget {
                 _buildHireButton(context),
               ] else ...[
                 _buildThemeButton(context),
-                const SizedBox(width: 8),
-                PopupMenuButton<String>(
+                const SizedBox(width: 4),
+                IconButton(
                   tooltip: 'Open navigation menu',
+                  onPressed: () => _openMobileDrawer(context),
                   icon: Icon(
-                    Icons.menu,
+                    Icons.menu_rounded,
                     color: colors.onSurface,
-                    size: 28,
+                    size: 29,
                   ),
-                  onSelected: onNavigate,
-                  itemBuilder: (context) => navItems
-                      .map(
-                        (item) => PopupMenuItem<String>(
-                          value: item,
-                          child: Text(item),
-                        ),
-                      )
-                      .toList(),
                 ),
               ],
             ],
