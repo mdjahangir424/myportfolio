@@ -165,6 +165,7 @@ class _PortfolioAppState extends State<PortfolioApp> {
                       _saveThemePreference(value);
                     },
                     onNavigate: _navigateTo,
+                    onLogoTap: () => _refreshPage(),
                   ),
 
                   Expanded(
