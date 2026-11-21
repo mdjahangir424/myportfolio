@@ -182,11 +182,6 @@ class _PortfolioAppState extends State<PortfolioApp> {
     );
   }
 
-  void _reloadToHome() {
-    // document.baseURI respects Firebase '/' and GitHub Pages '/myportfolio/'.
-    web.window.location.assign(web.document.baseURI);
-  }
-
   void _navigateTo(String item) {
     final index = PortfolioNavbar.navItems.indexOf(item);
 
@@ -241,6 +236,11 @@ class _PortfolioShell extends StatefulWidget {
 
 class _PortfolioShellState extends State<_PortfolioShell> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _reloadToHome() {
+    // document.baseURI respects Firebase '/' and GitHub Pages '/myportfolio/'.
+    web.window.location.assign(web.document.baseURI);
+  }
 
   Future<void> _refreshPage() async {
     web.window.location.reload();
