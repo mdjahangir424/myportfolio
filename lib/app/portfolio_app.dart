@@ -1,8 +1,7 @@
-
-import 'dart:html' as html;
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web/web.dart' as web;
 
 import 'app_theme.dart';
 import '../widgets/navbar.dart';
@@ -28,13 +27,167 @@ class PortfolioApp extends StatefulWidget {
 }
 
 class _PortfolioAppState extends State<PortfolioApp> {
+  /// Same order as [PortfolioNavbar.navItems].
+  static const List<String> _paths = [
+    '/',
+    '/about',
+    '/skills',
+    '/services',
+    '/projects',
+    '/automation',
+    '/contact',
+  ];
+
+  static const String _homeTitle =
+      'Md Jahangir Alam | Flutter Developer & AI Automation Specialist';
+
   late bool _isDarkMode;
-  int _selectedIndex = 0;
+  late final GoRouter _router;
 
   @override
   void initState() {
     super.initState();
     _isDarkMode = widget.initialDarkMode;
+    _router = _createRouter();
+  }
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
+
+  GoRouter _createRouter() {
+    return GoRouter(
+      initialLocation: '/',
+      // Unknown links go to Home instead of showing an error page.
+      redirect: (context, state) {
+        return _paths.contains(state.uri.path) ? null : '/';
+      },
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) {
+            return _PortfolioShell(
+              onThemeChanged: _setDarkMode,
+              onNavigate: _navigateTo,
+              child: child,
+            );
+          },
+          routes: [
+            GoRoute(
+              path: '/',
+              pageBuilder: (context, state) => _page(
+                state,
+                _homeTitle,
+                HomeScreen(
+                  onViewProjects: () => _navigateTo('Projects'),
+                  onContact: () => _navigateTo('Contact'),
+                  onNavigate: _navigateTo,
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/about',
+              pageBuilder: (context, state) => _page(
+                state,
+                'About | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: about.loadLibrary,
+                  builder: (_) => about.AboutScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/skills',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Skills | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: skills.loadLibrary,
+                  builder: (_) => skills.SkillsScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/services',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Services | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: services.loadLibrary,
+                  builder: (_) => services.ServicesScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/projects',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Projects | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: projects.loadLibrary,
+                  builder: (_) => projects.ProjectsScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/automation',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Automation | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: automation.loadLibrary,
+                  builder: (_) => automation.AutomationScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/contact',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Contact | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: contact.loadLibrary,
+                  builder: (_) => contact.ContactScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  /// A page without a transition, with the browser tab title set.
+  Page<void> _page(GoRouterState state, String title, Widget child) {
+    return NoTransitionPage<void>(
+      key: state.pageKey,
+      child: Title(
+        title: title,
+        color: const Color(0xFF2563EB),
+        child: child,
+      ),
+    );
+  }
+
+  void _navigateTo(String item) {
+    final index = PortfolioNavbar.navItems.indexOf(item);
+
+    if (index >= 0 && index < _paths.length) {
+      _router.go(_paths[index]);
+    }
   }
 
   Future<void> _saveThemePreference(bool value) async {
@@ -42,152 +195,73 @@ class _PortfolioAppState extends State<PortfolioApp> {
     await prefs.setBool('isDarkMode', value);
   }
 
-  Future<void> _refreshPage() async {
-    html.window.location.reload();
-  }
-
-  void _navigateTo(String item) {
-    final index = PortfolioNavbar.navItems.indexOf(item);
-
-    if (index >= 0) {
-      _navigateToIndex(index);
-    }
-  }
-
-  void _navigateToIndex(int index) {
-    if (index < 0 || index > 6 || index == _selectedIndex) {
-      return;
-    }
+  void _setDarkMode(bool value) {
+    if (_isDarkMode == value) return;
 
     setState(() {
-      _selectedIndex = index;
+      _isDarkMode = value;
     });
-  }
 
-  Widget _getSelectedScreen() {
-    switch (_selectedIndex) {
-      case 0:
-        return HomeScreen(
-          onViewProjects: () => _navigateToIndex(4),
-          onContact: () => _navigateToIndex(6),
-          onNavigate: _navigateTo,
-        );
-
-      case 1:
-        return _DeferredScreen(
-          key: const ValueKey('about'),
-          loadLibrary: about.loadLibrary,
-          builder: (_) => about.AboutScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      case 2:
-        return _DeferredScreen(
-          key: const ValueKey('skills'),
-          loadLibrary: skills.loadLibrary,
-          builder: (_) => skills.SkillsScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      case 3:
-        return _DeferredScreen(
-          key: const ValueKey('services'),
-          loadLibrary: services.loadLibrary,
-          builder: (_) => services.ServicesScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      case 4:
-        return _DeferredScreen(
-          key: const ValueKey('projects'),
-          loadLibrary: projects.loadLibrary,
-          builder: (_) => projects.ProjectsScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      case 5:
-        return _DeferredScreen(
-          key: const ValueKey('automation'),
-          loadLibrary: automation.loadLibrary,
-          builder: (_) => automation.AutomationScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      case 6:
-        return _DeferredScreen(
-          key: const ValueKey('contact'),
-          loadLibrary: contact.loadLibrary,
-          builder: (_) => contact.ContactScreen(
-            onNavigate: _navigateTo,
-          ),
-        );
-
-      default:
-        return HomeScreen(
-          onViewProjects: () => _navigateToIndex(4),
-          onContact: () => _navigateToIndex(6),
-          onNavigate: _navigateTo,
-        );
-    }
+    _saveThemePreference(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Md Jahangir Alam | Portfolio',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: _isDarkMode
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      routerConfig: _router,
+    );
+  }
+}
 
-      home: Builder(
-        builder: (context) {
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  PortfolioNavbar(
-                    isDarkMode: _isDarkMode,
-                    onThemeChanged: (value) {
-                      if (_isDarkMode == value) return;
+/// Navbar + pull-to-refresh around the current page.
+class _PortfolioShell extends StatelessWidget {
+  final ValueChanged<bool> onThemeChanged;
+  final ValueChanged<String> onNavigate;
+  final Widget child;
 
-                      setState(() {
-                        _isDarkMode = value;
-                      });
+  const _PortfolioShell({
+    required this.onThemeChanged,
+    required this.onNavigate,
+    required this.child,
+  });
 
-                      _saveThemePreference(value);
-                    },
-                    onNavigate: _navigateTo,
-                    onLogoTap: () => _refreshPage(),
-                  ),
+  Future<void> _refreshPage() async {
+    web.window.location.reload();
+  }
 
-                  Expanded(
-                    child: ScrollConfiguration(
-                      behavior: const _RefreshScrollBehavior(),
-                      child: RefreshIndicator(
-                        onRefresh: _refreshPage,
-                        color: Theme.of(context)
-                            .colorScheme.primary,
-                        backgroundColor: Theme.of(context)
-                            .cardColor,
-                        strokeWidth: 3,
-                        displacement: 55,
-                        child: _getSelectedScreen(),
-                      ),
-                    ),
-                  ),
-                ],
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            PortfolioNavbar(
+              isDarkMode: theme.brightness == Brightness.dark,
+              onThemeChanged: onThemeChanged,
+              onNavigate: onNavigate,
+            ),
+            Expanded(
+              child: ScrollConfiguration(
+                behavior: const _RefreshScrollBehavior(),
+                child: RefreshIndicator(
+                  onRefresh: _refreshPage,
+                  color: theme.colorScheme.primary,
+                  backgroundColor: theme.cardColor,
+                  strokeWidth: 3,
+                  displacement: 55,
+                  child: child,
+                ),
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
@@ -204,15 +278,12 @@ class _RefreshScrollBehavior extends MaterialScrollBehavior {
   }
 }
 
-
-/// Loads a deferred library on first visit, then shows the screen.
-/// Give every instance a unique key so the future is not reused across pages.
+/// Loads a deferred library the first time a page is opened, then shows it.
 class _DeferredScreen extends StatefulWidget {
   final Future<void> Function() loadLibrary;
   final WidgetBuilder builder;
 
   const _DeferredScreen({
-    super.key,
     required this.loadLibrary,
     required this.builder,
   });
