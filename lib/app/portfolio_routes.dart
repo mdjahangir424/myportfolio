@@ -17,7 +17,8 @@ class PortfolioRoutes {
     final normalized = path.length > 1
         ? path.replaceFirst(RegExp(r'/+$'), '')
         : path;
-    return paths.contains(normalized) ? null : '/';
+    if (!paths.contains(normalized)) return '/';
+    return normalized == path ? null : normalized;
   }
 
   /// Maps a navigation label to its route without relying on duplicated indexes.
