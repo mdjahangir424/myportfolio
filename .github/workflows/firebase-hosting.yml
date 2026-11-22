@@ -42,6 +42,9 @@ jobs:
       - name: Build Flutter web
         run: flutter build web --release --base-href /
 
+      - name: Generate route-specific SEO pages
+        run: python3 scripts/generate_route_pages.py
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
