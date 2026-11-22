@@ -27,10 +27,7 @@ const List<SkillData> skillsData = [
     level: 'Expert',
     score: 98,
     description:
-        'Build complete cross-platform Android and iOS applications with '
-        'responsive interfaces, smooth navigation, API integration, and '
-        'Firebase connectivity. Focus on reusable components, maintainable '
-        'code, and polished user experiences.',
+        'Build responsive Android and iOS apps with smooth navigation, API and Firebase integration, and reusable components.',
   ),
   SkillData(
     name: 'Dart',
@@ -39,10 +36,7 @@ const List<SkillData> skillsData = [
     level: 'Expert',
     score: 96,
     description:
-        'Develop application logic with object-oriented programming, '
-        'asynchronous operations, null safety, collections, and reusable '
-        'code structures. Apply these fundamentals to build reliable and '
-        'maintainable Flutter applications.',
+        'Use object-oriented programming, async operations, null safety, and collections to write reliable Dart code.',
   ),
   SkillData(
     name: 'Android App Development',
@@ -51,9 +45,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 84,
     description:
-        'Develop native Android applications using Kotlin and Jetpack Compose. '
-        'Create modern interfaces, manage application state and navigation, '
-        'integrate APIs and Firebase, and build functional Android experiences.',
+        'Build native Android apps with Kotlin and Jetpack Compose, including UI, state, navigation, APIs, and Firebase.',
   ),
 
   // Backend & Database
@@ -64,9 +56,7 @@ const List<SkillData> skillsData = [
     level: 'Expert',
     score: 98,
     description:
-        'Integrate Firebase services such as Authentication, Cloud Firestore, '
-        'and Cloud Storage into mobile applications. Implement secure access, '
-        'cloud backup and restore, and reliable data synchronization.',
+        'Integrate Firebase Authentication, Firestore, and Storage with secure access, cloud backup, and data synchronization.',
   ),
   SkillData(
     name: 'Cloud Firestore',
@@ -75,9 +65,7 @@ const List<SkillData> skillsData = [
     level: 'Expert',
     score: 96,
     description:
-        'Design and manage cloud-based NoSQL databases using collections '
-        'and documents. Work with CRUD operations, real-time updates, '
-        'Firestore Security Rules, offline data, and device synchronization.',
+        'Manage NoSQL collections, CRUD operations, real-time updates, Security Rules, offline data, and synchronization.',
   ),
   SkillData(
     name: 'REST API',
@@ -86,9 +74,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 90,
     description:
-        'Connect applications with backend services through HTTP requests '
-        'and JSON responses. Handle authentication tokens, data parsing, '
-        'request states, and API errors to support dependable integrations.',
+        'Connect apps to backend services using HTTP and JSON, handling tokens, responses, and API errors.',
   ),
 
   // AI & Automation
@@ -99,9 +85,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 92,
     description:
-        'Build AI-powered agents that understand user requests, generate '
-        'useful responses, and support task automation. Integrate language '
-        'models with tools and external services for practical workflows.',
+        'Build AI agents that understand requests, generate responses, and automate tasks using models and tools.',
   ),
   SkillData(
     name: 'n8n Workflow Automation',
@@ -110,9 +94,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 82,
     description:
-        'Create automated workflows by connecting applications, APIs, '
-        'triggers, and actions in n8n. Process data, use webhooks, and reduce '
-        'repetitive manual tasks through connected automation workflows.',
+        'Automate tasks in n8n by connecting apps, APIs, triggers, actions, and webhooks.',
   ),
   SkillData(
     name: 'OpenAI API',
@@ -121,9 +103,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 91,
     description:
-        'Integrate OpenAI models into applications and AI-powered systems. '
-        'Build conversational features, generate text, process user prompts, '
-        'and connect model capabilities with application backends and tools.',
+        'Integrate OpenAI models for chat, text generation, prompt handling, and application workflows.',
   ),
   SkillData(
     name: 'Google Gemini API',
@@ -132,9 +112,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 90,
     description:
-        'Use the Gemini API to add generative AI capabilities to applications. '
-        'Implement conversational experiences, content generation, contextual '
-        'responses, and AI-assisted features through API integration.',
+        'Use Gemini API for conversational features, content generation, contextual responses, and AI-assisted tools.',
   ),
   SkillData(
     name: 'Webhooks',
@@ -143,9 +121,7 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 85,
     description:
-        'Connect applications and external services through event-driven '
-        'webhook communication. Configure endpoints, receive event payloads, '
-        'process incoming data, and trigger connected workflows.',
+        'Connect services with webhooks, process event payloads, and trigger automated workflows.',
   ),
 
   // Development Tools
@@ -156,8 +132,6 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 90,
     description:
-        'Manage source code and collaborative development workflows with Git '
-        'and GitHub. Work with repositories, commits, branches, pull requests, '
-        'merges, and version history to keep projects organized.',
+        'Manage code with Git and GitHub using repositories, commits, branches, pull requests, and merges.',
   ),
 ];
