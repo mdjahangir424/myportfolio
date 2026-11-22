@@ -27,8 +27,8 @@ class SkillsScreen extends StatelessWidget {
     return SharedScreenLayout(
       onNavigate: onNavigate,
       padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 70,
+        horizontal: 20,
+        vertical: 56,
       ),
       child: Center(
         child: ConstrainedBox(
@@ -44,7 +44,7 @@ class SkillsScreen extends StatelessWidget {
                     'Technologies and tools I use to build '
                     'modern applications and intelligent solutions.',
               ),
-              const SizedBox(height: 55),
+              const SizedBox(height: 42),
               ...categories.map((category) {
                 final categorySkills = skillsData
                     .where((skill) => skill.category == category)
@@ -97,8 +97,11 @@ class SkillsScreen extends StatelessWidget {
                       const SizedBox(height: 22),
                       LayoutBuilder(
                         builder: (context, constraints) {
-                          final columns =
-                              constraints.maxWidth >= 760 ? 2 : 1;
+                          final columns = constraints.maxWidth >= 900
+                              ? 3
+                              : constraints.maxWidth >= 560
+                                  ? 2
+                                  : 1;
 
                           return GridView.builder(
                             shrinkWrap: true,
@@ -109,7 +112,7 @@ class SkillsScreen extends StatelessWidget {
                               crossAxisCount: columns,
                               crossAxisSpacing: 18,
                               mainAxisSpacing: 18,
-                              mainAxisExtent: 310,
+                              mainAxisExtent: 258,
                             ),
                             itemBuilder: (context, index) {
                               final skill = categorySkills[index];
@@ -196,7 +199,7 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
         final animatedScore = (skill.score * _progress.value).round();
 
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: theme.cardColor,
             borderRadius: BorderRadius.circular(18),
@@ -217,8 +220,8 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
               Row(
                 children: [
                   Container(
-                    width: 48,
-                    height: 48,
+                    width: 42,
+                    height: 42,
                     decoration: BoxDecoration(
                       color: colors.primary.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(14),
@@ -226,10 +229,10 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
                     child: Icon(
                       skill.icon,
                       color: colors.primary,
-                      size: 25,
+                      size: 22,
                     ),
                   ),
-                  const SizedBox(width: 13),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       skill.name,
@@ -243,12 +246,12 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Text(
                 skill.description,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
-                  height: 1.55,
+                  height: 1.42,
                 ),
               ),
               const Spacer(),
@@ -290,11 +293,11 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
-                  height: 9,
+                  height: 7,
                   color: colors.surfaceContainerHighest,
                   alignment: Alignment.centerLeft,
                   child: FractionallySizedBox(
