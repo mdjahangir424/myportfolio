@@ -2,6 +2,8 @@ name: portfolio
 description: Premium personal portfolio website of Md Jahangir Alam - Flutter Developer and AI Automation Specialist.
 publish_to: 'none'
 
+# Commit pubspec.lock so CI and local builds resolve identical dependency versions.
+
 version: 1.0.0+1
 
 environment:
