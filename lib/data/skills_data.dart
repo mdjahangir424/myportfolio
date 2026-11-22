@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class SkillData {
@@ -21,19 +20,19 @@ const List<SkillData> skillsData = [
     name: 'Flutter',
     category: 'Mobile Development',
     icon: Icons.phone_android,
-    level: 'Not specified',
+    level: 'Expert · 98%',
   ),
   SkillData(
     name: 'Dart',
     category: 'Mobile Development',
     icon: Icons.code,
-    level: 'Not specified',
+    level: 'Expert · 96%',
   ),
   SkillData(
     name: 'Android App Development',
     category: 'Mobile Development',
     icon: Icons.android,
-    level: 'Not specified',
+    level: 'Advanced · 84%',
   ),
 
   // Backend & Database
@@ -41,19 +40,19 @@ const List<SkillData> skillsData = [
     name: 'Firebase',
     category: 'Backend & Database',
     icon: Icons.local_fire_department,
-    level: 'Not specified',
+    level: 'Expert · 98%',
   ),
   SkillData(
     name: 'Cloud Firestore',
     category: 'Backend & Database',
     icon: Icons.storage,
-    level: 'Not specified',
+    level: 'Expert · 96%',
   ),
   SkillData(
     name: 'REST API',
     category: 'Backend & Database',
     icon: Icons.api,
-    level: 'Not specified',
+    level: 'Advanced · 90%',
   ),
 
   // AI & Automation
@@ -61,31 +60,31 @@ const List<SkillData> skillsData = [
     name: 'AI Agent Development',
     category: 'AI & Automation',
     icon: Icons.smart_toy,
-    level: 'Not specified',
+    level: 'Advanced · 92%',
   ),
   SkillData(
     name: 'n8n Workflow Automation',
     category: 'AI & Automation',
     icon: Icons.account_tree,
-    level: 'Advanced',
+    level: 'Advanced · 82%',
   ),
   SkillData(
     name: 'OpenAI API',
     category: 'AI & Automation',
     icon: Icons.psychology,
-    level: 'Not specified',
+    level: 'Advanced · 91%',
   ),
   SkillData(
     name: 'Google Gemini API',
     category: 'AI & Automation',
     icon: Icons.auto_awesome,
-    level: 'Not specified',
+    level: 'Advanced · 90%',
   ),
   SkillData(
     name: 'Webhooks',
     category: 'AI & Automation',
     icon: Icons.webhook,
-    level: 'Not specified',
+    level: 'Advanced · 85%',
   ),
 
   // Development Tools
@@ -93,6 +92,6 @@ const List<SkillData> skillsData = [
     name: 'Git & GitHub',
     category: 'Development Tools',
     icon: Icons.code_outlined,
-    level: 'Not specified',
+    level: 'Advanced · 90%',
   ),
 ];
