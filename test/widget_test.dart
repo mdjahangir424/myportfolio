@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:portfolio/data/projects_data.dart';
 import 'package:portfolio/data/social_data.dart';
 import 'package:portfolio/widgets/navbar.dart';
+import 'package:portfolio/widgets/footer.dart';
 
 void main() {
   group('projectsData', () {
@@ -53,6 +54,69 @@ void main() {
       }
     });
   });
+
+
+  group('Footer navigation', () {
+    testWidgets('expertise links navigate to Skills', (tester) async {
+      String? selectedItem;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: PortfolioFooter(
+              onNavigate: (item) => selectedItem = item,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('Flutter Development'));
+      expect(selectedItem, 'Skills');
+    });
+
+    testWidgets('service links navigate to Services', (tester) async {
+      String? selectedItem;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: PortfolioFooter(
+              onNavigate: (item) => selectedItem = item,
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('App Development'));
+      expect(selectedItem, 'Services');
+    });
+
+    for (final width in [320.0, 375.0, 768.0, 1024.0, 1920.0]) {
+      testWidgets('renders without layout exception at ${width.toInt()}px',
+          (tester) async {
+        tester.view.physicalSize = Size(width, 1000);
+        tester.view.devicePixelRatio = 1;
+
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: SingleChildScrollView(
+                child: PortfolioFooter(onNavigate: (_) {}),
+              ),
+            ),
+          ),
+        );
+
+        expect(tester.takeException(), isNull);
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+      });
+    }
+  });
+
 
   group('Mobile navigation', () {
     testWidgets('opens the end drawer and navigates after selection',
