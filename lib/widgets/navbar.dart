@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../data/social_data.dart';
+import '../utils/external_link.dart';
 
 class PortfolioNavbar extends StatelessWidget {
   final bool isDarkMode;
@@ -178,8 +177,7 @@ class PortfolioNavigationDrawer extends StatelessWidget {
   });
 
   Future<void> _openUrl(String url) async {
-    final uri = Uri.parse(url);
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    await launchExternalUrl(url);
   }
 
   static const List<IconData> _icons = [
