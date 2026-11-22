@@ -60,9 +60,15 @@ class _PortfolioAppState extends State<PortfolioApp> {
   GoRouter _createRouter() {
     return GoRouter(
       initialLocation: '/',
-      // Unknown links go to Home instead of showing an error page.
+      // Hosting platforms may normalize directory URLs to a trailing slash
+      // (for example, /about/). Match those URLs to the app's canonical route
+      // instead of treating them as unknown paths and redirecting to Home.
       redirect: (context, state) {
-        return _paths.contains(state.uri.path) ? null : '/';
+        final path = state.uri.path;
+        final normalizedPath = path.length > 1
+            ? path.replaceFirst(RegExp(r'/+$'), '')
+            : path;
+        return _paths.contains(normalizedPath) ? null : '/';
       },
       routes: [
         ShellRoute(
