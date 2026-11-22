@@ -4,7 +4,8 @@ Flutter Developer | AI Automation Specialist
 
 Welcome to my personal portfolio website! This project showcases my skills, services, development projects, and experience in Flutter application development and AI automation.
 
-🌐 Live Website: https://mdjahangir424.github.io/myportfolio/
+🌐 Primary Live Website: https://myportfolio-f6cfb.web.app/
+🌐 GitHub Pages Mirror: https://mdjahangir424.github.io/myportfolio/
 
 About Me
 
@@ -23,7 +24,7 @@ Features
 - Projects portfolio with images
 - GitHub repository links
 - Contact section
-- Flutter Web deployment using GitHub Pages
+- Flutter Web deployment using Firebase Hosting and GitHub Pages
 
 Projects
 
@@ -42,6 +43,7 @@ Technology Stack
 - URL Launcher
 - GitHub
 - GitHub Actions
+- Firebase Hosting
 - GitHub Pages
 
 Project Structure
@@ -84,11 +86,17 @@ flutter run -d chrome
 
 Build for Web
 
+For Firebase Hosting:
+
+flutter build web --release --base-href /
+
+For the GitHub Pages mirror:
+
 flutter build web --release --base-href /myportfolio/
 
 Deployment
 
-This portfolio website is deployed using GitHub Pages and GitHub Actions.
+Firebase Hosting is the primary deployment and canonical website for this portfolio. GitHub Pages is maintained as a secondary mirror. Both deployments are automated through GitHub Actions.
 
 Repository: https://github.com/mdjahangir424/myportfolio
 
@@ -97,7 +105,7 @@ Contact
 Md Jahangir Alam
 
 - GitHub: https://github.com/mdjahangir424
-- Portfolio: https://mdjahangir424.github.io/myportfolio/
+- Portfolio: https://myportfolio-f6cfb.web.app/
 
 ---
 
