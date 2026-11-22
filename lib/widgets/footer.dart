@@ -175,6 +175,7 @@ class PortfolioFooter extends StatelessWidget {
                             return _footerLink(
                               item,
                               textColor,
+                              onTap: () => onNavigate('Skills'),
                             );
                           }).toList(),
                         ),
@@ -189,6 +190,7 @@ class PortfolioFooter extends StatelessWidget {
                             return _footerLink(
                               item,
                               textColor,
+                              onTap: () => onNavigate('Services'),
                             );
                           }).toList(),
                         ),
