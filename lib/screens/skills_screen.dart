@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../data/skills_data.dart';
@@ -43,9 +42,7 @@ class SkillsScreen extends StatelessWidget {
                     'Technologies and tools I use to build '
                     'modern applications and intelligent solutions.',
               ),
-
               const SizedBox(height: 55),
-
               ...categories.map((category) {
                 final categorySkills = skillsData
                     .where((skill) => skill.category == category)
@@ -66,9 +63,7 @@ class SkillsScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-
                           const SizedBox(width: 12),
-
                           Expanded(
                             child: Text(
                               category,
@@ -77,16 +72,13 @@ class SkillsScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: colors.primary.withValues(
-                                alpha: 0.10,
-                              ),
+                              color: colors.primary.withValues(alpha: 0.10),
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Text(
@@ -100,121 +92,32 @@ class SkillsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 22),
-
                       LayoutBuilder(
                         builder: (context, constraints) {
                           final columns =
-                              constraints.maxWidth >= 850
-                                  ? 3
-                                  : constraints.maxWidth >= 550
-                                      ? 2
-                                      : 1;
+                              constraints.maxWidth >= 760 ? 2 : 1;
 
                           return GridView.builder(
                             shrinkWrap: true,
-                            physics:
-                                const NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: categorySkills.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: columns,
                               crossAxisSpacing: 18,
                               mainAxisSpacing: 18,
-                              mainAxisExtent: 135,
+                              mainAxisExtent: 310,
                             ),
                             itemBuilder: (context, index) {
                               final skill = categorySkills[index];
 
-                              return Container(
-                                padding: const EdgeInsets.all(18),
-                                decoration: BoxDecoration(
-                                  color: theme.cardColor,
-                                  borderRadius: BorderRadius.circular(18),
-                                  border: Border.all(
-                                    color: colors.outlineVariant,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: colors.shadow.withValues(
-                                        alpha: 0.035,
-                                      ),
-                                      blurRadius: 14,
-                                      offset: const Offset(0, 5),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: colors.primary.withValues(
-                                          alpha: 0.10,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(14),
-                                      ),
-                                      child: Icon(
-                                        skill.icon,
-                                        color: colors.primary,
-                                        size: 26,
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 14),
-
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            skill.name,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: theme
-                                                .textTheme.titleSmall
-                                                ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              height: 1.3,
-                                            ),
-                                          ),
-
-                                          const SizedBox(height: 10),
-
-                                          Container(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                              horizontal: 9,
-                                              vertical: 5,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              color: colors.primary
-                                                  .withValues(alpha: 0.08),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            child: Text(
-                                              skill.level,
-                                              maxLines: 1,
-                                              overflow:
-                                                  TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600,
-                                                color: colors.primary,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                              return _AnimatedSkillCard(
+                                key: ValueKey(skill.name),
+                                skill: skill,
+                                animationDelay: Duration(
+                                  milliseconds:
+                                      skillsData.indexOf(skill) * 110,
                                 ),
                               );
                             },
@@ -229,6 +132,184 @@ class SkillsScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AnimatedSkillCard extends StatefulWidget {
+  final SkillData skill;
+  final Duration animationDelay;
+
+  const _AnimatedSkillCard({
+    super.key,
+    required this.skill,
+    required this.animationDelay,
+  });
+
+  @override
+  State<_AnimatedSkillCard> createState() => _AnimatedSkillCardState();
+}
+
+class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    _progress = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
+
+    Future<void>.delayed(widget.animationDelay, () {
+      if (mounted) {
+        _controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final skill = widget.skill;
+
+    return AnimatedBuilder(
+      animation: _progress,
+      builder: (context, child) {
+        final animatedScore = (skill.score * _progress.value).round();
+
+        return Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: colors.outlineVariant,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: colors.shadow.withValues(alpha: 0.035),
+                blurRadius: 14,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Icon(
+                      skill.icon,
+                      color: colors.primary,
+                      size: 25,
+                    ),
+                  ),
+                  const SizedBox(width: 13),
+                  Expanded(
+                    child: Text(
+                      skill.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        height: 1.25,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(
+                skill.description,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: colors.onSurfaceVariant,
+                  height: 1.55,
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colors.primary.withValues(alpha: 0.09),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      skill.level,
+                      style: TextStyle(
+                        color: colors.primary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    'Proficiency',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: colors.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '$animatedScore%',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: colors.primary,
+                      fontWeight: FontWeight.bold,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  height: 9,
+                  color: colors.surfaceContainerHighest,
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    widthFactor: (skill.score / 100) * _progress.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: colors.primary,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
