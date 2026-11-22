@@ -1,0 +1,52 @@
+name: Generate and Commit Flutter Dependency Lockfile
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pubspec.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dependency-lockfile
+  cancel-in-progress: false
+
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies and generate lockfile
+        run: flutter pub get
+
+      - name: Commit lockfile when changed
+        run: |
+          if [ ! -f pubspec.lock ]; then
+            echo "pubspec.lock was not generated."
+            exit 1
+          fi
+
+          git add pubspec.lock
+          if git diff --cached --quiet; then
+            echo "pubspec.lock is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add reproducible Flutter dependency lockfile"
+          git push origin HEAD:main
