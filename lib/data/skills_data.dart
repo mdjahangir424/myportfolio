@@ -21,19 +21,19 @@ const List<SkillData> skillsData = [
     name: 'Flutter',
     category: 'Mobile Development',
     icon: Icons.phone_android,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'Dart',
     category: 'Mobile Development',
     icon: Icons.code,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'Android App Development',
     category: 'Mobile Development',
     icon: Icons.android,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
 
   // Backend & Database
@@ -41,19 +41,19 @@ const List<SkillData> skillsData = [
     name: 'Firebase',
     category: 'Backend & Database',
     icon: Icons.local_fire_department,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'Cloud Firestore',
     category: 'Backend & Database',
     icon: Icons.storage,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'REST API',
     category: 'Backend & Database',
     icon: Icons.api,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
 
   // AI & Automation
@@ -61,7 +61,7 @@ const List<SkillData> skillsData = [
     name: 'AI Agent Development',
     category: 'AI & Automation',
     icon: Icons.smart_toy,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'n8n Workflow Automation',
@@ -73,19 +73,19 @@ const List<SkillData> skillsData = [
     name: 'OpenAI API',
     category: 'AI & Automation',
     icon: Icons.psychology,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'Google Gemini API',
     category: 'AI & Automation',
     icon: Icons.auto_awesome,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
   SkillData(
     name: 'Webhooks',
     category: 'AI & Automation',
     icon: Icons.webhook,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
 
   // Development Tools
@@ -93,6 +93,6 @@ const List<SkillData> skillsData = [
     name: 'Git & GitHub',
     category: 'Development Tools',
     icon: Icons.code_outlined,
-    level: 'Experience details to be updated',
+    level: 'Not specified',
   ),
 ];
