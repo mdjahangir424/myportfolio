@@ -26,6 +26,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.50.1'
           channel: stable
           cache: true
 
@@ -45,8 +46,8 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Analyze code (fails only on errors)
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Analyze code (fails on errors and warnings)
+        run: flutter analyze --no-fatal-infos
 
       - name: Run tests
         run: flutter test

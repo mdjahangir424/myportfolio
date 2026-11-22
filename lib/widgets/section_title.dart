@@ -46,7 +46,7 @@ class SectionTitle extends StatelessWidget {
           subtitle,
           textAlign: centered ? TextAlign.center : TextAlign.left,
           style: TextStyle(
-            color: colors.onSurface.withOpacity(0.65),
+            color: colors.onSurface.withValues(alpha: 0.65),
             fontSize: 15,
             height: 1.7,
           ),

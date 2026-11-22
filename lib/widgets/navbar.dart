@@ -46,7 +46,7 @@ class PortfolioNavbar extends StatelessWidget {
             color: Theme.of(context).scaffoldBackgroundColor,
             border: Border(
               bottom: BorderSide(
-                color: colors.outline.withOpacity(0.15),
+                color: colors.outline.withValues(alpha: 0.15),
               ),
             ),
           ),

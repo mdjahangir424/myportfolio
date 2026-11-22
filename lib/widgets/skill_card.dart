@@ -27,11 +27,11 @@ class SkillCard extends StatelessWidget {
         color: colors.surface,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: colors.outline.withOpacity(0.18),
+          color: colors.outline.withValues(alpha: 0.18),
         ),
         boxShadow: [
           BoxShadow(
-            color: colors.shadow.withOpacity(0.04),
+            color: colors.shadow.withValues(alpha: 0.04),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -46,7 +46,7 @@ class SkillCard extends StatelessWidget {
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                  color: colors.primary.withOpacity(0.10),
+                  color: colors.primary.withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -75,7 +75,7 @@ class SkillCard extends StatelessWidget {
               Text(
                 level,
                 style: TextStyle(
-                  color: colors.onSurface.withOpacity(0.65),
+                  color: colors.onSurface.withValues(alpha: 0.65),
                   fontSize: 13,
                 ),
               ),
@@ -95,7 +95,7 @@ class SkillCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: safeProficiency,
               minHeight: 7,
-              backgroundColor: colors.primary.withOpacity(0.12),
+              backgroundColor: colors.primary.withValues(alpha: 0.12),
               valueColor: AlwaysStoppedAnimation<Color>(
                 colors.primary,
               ),
