@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web/web.dart' as web;
 
 import 'app_theme.dart';
+import 'portfolio_routes.dart';
 import '../widgets/navbar.dart';
 
 import '../screens/home_screen.dart';
@@ -28,15 +29,7 @@ class PortfolioApp extends StatefulWidget {
 
 class _PortfolioAppState extends State<PortfolioApp> {
   /// Same order as [PortfolioNavbar.navItems].
-  static const List<String> _paths = [
-    '/',
-    '/about',
-    '/skills',
-    '/services',
-    '/projects',
-    '/automation',
-    '/contact',
-  ];
+  static const List<String> _paths = PortfolioRoutes.paths;
 
   static const String _homeTitle =
       'Md Jahangir Alam | Flutter Developer & AI Automation Specialist';
@@ -60,16 +53,9 @@ class _PortfolioAppState extends State<PortfolioApp> {
   GoRouter _createRouter() {
     return GoRouter(
       initialLocation: '/',
-      // Hosting platforms may normalize directory URLs to a trailing slash
-      // (for example, /about/). Match those URLs to the app's canonical route
-      // instead of treating them as unknown paths and redirecting to Home.
-      redirect: (context, state) {
-        final path = state.uri.path;
-        final normalizedPath = path.length > 1
-            ? path.replaceFirst(RegExp(r'/+$'), '')
-            : path;
-        return _paths.contains(normalizedPath) ? null : '/';
-      },
+      // Normalize trailing slashes to the registered route path.
+      redirect: (context, state) =>
+          PortfolioRoutes.redirect(state.uri.path),
       routes: [
         ShellRoute(
           builder: (context, state, child) {
@@ -189,11 +175,11 @@ class _PortfolioAppState extends State<PortfolioApp> {
   }
 
   void _navigateTo(String item) {
-    final index = PortfolioNavbar.navItems.indexOf(item);
-
-    if (index >= 0 && index < _paths.length) {
-      _router.go(_paths[index]);
-    }
+    final path = PortfolioRoutes.pathForNavigation(
+      item,
+      PortfolioNavbar.navItems,
+    );
+    if (path != null) _router.go(path);
   }
 
   Future<void> _saveThemePreference(bool value) async {
