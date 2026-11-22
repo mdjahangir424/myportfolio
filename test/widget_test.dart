@@ -63,8 +63,10 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: PortfolioFooter(
-              onNavigate: (item) => selectedItem = item,
+            body: SingleChildScrollView(
+              child: PortfolioFooter(
+                onNavigate: (item) => selectedItem = item,
+              ),
             ),
           ),
         ),
