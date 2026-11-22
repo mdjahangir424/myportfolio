@@ -26,6 +26,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.50.1'
           channel: stable
           cache: true
 
@@ -42,8 +43,8 @@ jobs:
       - name: Configure Flutter Web
         run: flutter create . --platforms web
 
-      - name: Install Dependencies
-        run: flutter pub get
+      - name: Validate and install locked dependencies
+        run: flutter pub get --enforce-lockfile
 
       - name: Analyze code (fails only on errors)
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
@@ -53,6 +54,7 @@ jobs:
 
       - name: Build Flutter Web
         run: flutter build web --release --base-href /myportfolio/
+
       - name: Add No Jekyll File
         run: touch build/web/.nojekyll
 
