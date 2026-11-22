@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import '../data/social_data.dart';
+import '../utils/external_link.dart';
 
 class PortfolioFooter extends StatelessWidget {
   final ValueChanged<String> onNavigate;
@@ -15,12 +14,7 @@ class PortfolioFooter extends StatelessWidget {
   static const Color _accentColor = Color(0xFF3B82F6);
 
   Future<void> _openUrl(String url) async {
-    final uri = Uri.parse(url);
-
-    await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    );
+    await launchExternalUrl(url);
   }
 
   Widget _footerHeading(
