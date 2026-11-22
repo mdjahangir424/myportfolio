@@ -249,9 +249,11 @@ class _AnimatedSkillCardState extends State<_AnimatedSkillCard>
               const SizedBox(height: 10),
               Text(
                 skill.description,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: colors.onSurfaceVariant,
-                  height: 1.42,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  height: 1.7,
+                  color: theme.textTheme.bodyMedium?.color?.withValues(
+                    alpha: 0.75,
+                  ),
                 ),
               ),
               const Spacer(),
