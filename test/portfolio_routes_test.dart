@@ -16,8 +16,8 @@ void main() {
 
     test('normalizes trailing slashes on known routes', () {
       for (final path in PortfolioRoutes.paths.where((p) => p != '/')) {
-        expect(PortfolioRoutes.redirect('$path/'), isNull);
-        expect(PortfolioRoutes.redirect('$path///'), isNull);
+        expect(PortfolioRoutes.redirect('$path/'), path);
+        expect(PortfolioRoutes.redirect('$path///'), path);
       }
     });
 
