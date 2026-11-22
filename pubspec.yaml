@@ -3,6 +3,7 @@ description: Premium personal portfolio website of Md Jahangir Alam - Flutter De
 publish_to: 'none'
 
 # Commit pubspec.lock so CI and local builds resolve identical dependency versions.
+# Dependency versions are resolved by Flutter and pinned in pubspec.lock.
 
 version: 1.0.0+1
 
