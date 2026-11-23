@@ -14,6 +14,7 @@ import '../screens/services_screen.dart' deferred as services;
 import '../screens/projects_screen.dart' deferred as projects;
 import '../screens/automation_screen.dart' deferred as automation;
 import '../screens/contact_screen.dart' deferred as contact;
+import '../screens/legal_screen.dart';
 
 class PortfolioApp extends StatefulWidget {
   final bool initialDarkMode;
@@ -140,6 +141,40 @@ class _PortfolioAppState extends State<PortfolioApp> {
                   builder: (_) => automation.AutomationScreen(
                     onNavigate: _navigateTo,
                   ),
+                ),
+              ),
+            ),
+
+            GoRoute(
+              path: '/privacy-policy',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Privacy Policy | Md Jahangir Alam',
+                LegalScreen(
+                  pageType: LegalPageType.privacyPolicy,
+                  onNavigate: _navigateTo,
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/terms-and-conditions',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Terms & Conditions | Md Jahangir Alam',
+                LegalScreen(
+                  pageType: LegalPageType.termsAndConditions,
+                  onNavigate: _navigateTo,
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/disclaimer',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Disclaimer | Md Jahangir Alam',
+                LegalScreen(
+                  pageType: LegalPageType.disclaimer,
+                  onNavigate: _navigateTo,
                 ),
               ),
             ),
