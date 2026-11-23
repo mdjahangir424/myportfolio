@@ -1,115 +1,104 @@
-Md Jahangir Alam — Developer Portfolio
+# Md Jahangir Alam — Developer Portfolio
 
-Flutter Developer | AI Automation Specialist
+**Flutter Developer · AI Automation Specialist**
 
-Welcome to my personal portfolio website! This project showcases my skills, services, development projects, and experience in Flutter application development and AI automation.
+A personal portfolio built with Flutter Web to present my development skills, services, selected projects, and contact information.
 
-🌐 Primary Live Website: https://myportfolio-f6cfb.web.app/
+## Live websites
 
-🌐 GitHub Pages Mirror: https://mdjahangir424.github.io/myportfolio/
+- **Primary website:** [myportfolio-f6cfb.web.app](https://myportfolio-f6cfb.web.app/)
+- **GitHub Pages mirror:** [mdjahangir424.github.io/myportfolio](https://mdjahangir424.github.io/myportfolio/)
 
-About Me
+## Overview
 
-I am a Flutter Developer and AI Automation Specialist passionate about building modern, responsive applications and intelligent automation solutions.
+This portfolio highlights my work in Flutter application development and AI-powered workflow automation. It is designed to provide a responsive browsing experience across desktop, tablet, and mobile screens.
 
-I enjoy creating useful digital products with clean UI, smooth user experiences, and practical functionality.
+## Features
 
-Features
+- Responsive portfolio layout
+- Light and dark themes, with the selected theme saved locally
+- About, skills, services, projects, and contact sections
+- Project previews and links to source repositories
+- Flutter Web deployment targets for Firebase Hosting and GitHub Pages
+- Accessibility semantics support for the web
 
-- Modern and professional portfolio design
-- Responsive layout for mobile, tablet, and desktop
-- Light and Dark Mode
-- Home and About sections
-- Skills showcase
-- Services section
-- Projects portfolio with images
-- GitHub repository links
-- Contact section
-- Flutter Web deployment using Firebase Hosting and GitHub Pages
+## Technology
 
-Projects
+- **Framework:** Flutter
+- **Language:** Dart
+- **Routing:** go_router
+- **Local preferences:** shared_preferences
+- **UI and assets:** Material, Google Fonts, flutter_svg
+- **External links:** url_launcher
+- **Hosting:** Firebase Hosting and GitHub Pages
+- **Automation:** GitHub Actions
 
-Project| Description
-SkillSwap| Skill-sharing community application
-Hisab Khata| Digital expense management application
-AI Agent & Automation| AI and workflow automation showcase
-Food Delivery App| Food ordering and delivery application concept
+## Getting started
 
-Technology Stack
+### Requirements
 
-- Flutter
-- Dart
-- Firebase
-- Google Fonts
-- URL Launcher
-- GitHub
-- GitHub Actions
-- Firebase Hosting
-- GitHub Pages
+- Flutter SDK compatible with the Dart SDK constraint in `pubspec.yaml` (Dart `>=3.4.0 <4.0.0`)
+- Google Chrome, if you want to run the web app locally
 
-Project Structure
+### Run locally
 
+```bash
+git clone https://github.com/mdjahangir424/myportfolio.git
+cd myportfolio
+flutter pub get
+flutter run -d chrome
+```
+
+### Validate the project
+
+```bash
+flutter analyze
+flutter test
+```
+
+### Build for web
+
+For the primary Firebase Hosting deployment (root path):
+
+```bash
+flutter build web --release --base-href /
+```
+
+For the GitHub Pages project site (repository subpath):
+
+```bash
+flutter build web --release --base-href /myportfolio/
+```
+
+## Repository layout
+
+```text
 lib/
-├── app/
-├── data/
-├── models/
-├── screens/
-├── utils/
-└── widgets/
+  app/        # Application setup and configuration
+  data/       # Portfolio data
+  models/     # Data models
+  screens/    # Screen-level UI
+  utils/      # Shared utilities
+  widgets/    # Reusable UI components
 
 assets/
-├── images/
-└── icons/
+  images/
+  icons/
 
-web/
-.github/
-└── workflows/
+web/          # Flutter Web entry point and web assets
+.github/      # GitHub Actions workflows
+```
 
-Run Locally
+## Deployment
 
-Make sure Flutter SDK is installed.
+Firebase Hosting is the primary website, while GitHub Pages serves as a secondary mirror. Deployment automation is maintained in the repository's GitHub Actions workflows.
 
-1. Clone the repository:
+## Contact
 
-git clone https://github.com/mdjahangir424/myportfolio.git
-
-2. Open the project folder:
-
-cd myportfolio
-
-3. Install dependencies:
-
-flutter pub get
-
-4. Run the application:
-
-flutter run -d chrome
-
-Build for Web
-
-For Firebase Hosting:
-
-flutter build web --release --base-href /
-
-For the GitHub Pages mirror:
-
-flutter build web --release --base-href /myportfolio/
-
-Deployment
-
-Firebase Hosting is the primary deployment and canonical website for this portfolio. GitHub Pages is maintained as a secondary mirror. Both deployments are automated through GitHub Actions.
-
-Repository: https://github.com/mdjahangir424/myportfolio
-
-Contact
-
-Md Jahangir Alam
-
-- GitHub: https://github.com/mdjahangir424
-- Portfolio: https://myportfolio-f6cfb.web.app/
+- **Portfolio:** [myportfolio-f6cfb.web.app](https://myportfolio-f6cfb.web.app/)
+- **GitHub:** [@mdjahangir424](https://github.com/mdjahangir424)
+- **Repository:** [github.com/mdjahangir424/myportfolio](https://github.com/mdjahangir424/myportfolio)
 
 ---
 
-© 2026 Md Jahangir Alam. All Rights Reserved.
-
-Designed and developed with Flutter.
+© 2026 Md Jahangir Alam. Built with Flutter.
