@@ -4,8 +4,16 @@ import 'package:portfolio/widgets/navbar.dart';
 
 void main() {
   group('PortfolioRoutes', () {
-    test('defines the same number of routes as navigation items', () {
-      expect(PortfolioRoutes.paths.length, PortfolioNavbar.navItems.length);
+    test('keeps Automation directly accessible without showing it in navigation', () {
+      expect(PortfolioRoutes.paths, contains('/automation'));
+      expect(PortfolioNavbar.navItems, isNot(contains('Automation')));
+      expect(
+        PortfolioRoutes.pathForNavigation(
+          'Automation',
+          PortfolioNavbar.navItems,
+        ),
+        isNull,
+      );
     });
 
     for (final path in PortfolioRoutes.paths) {
@@ -26,14 +34,25 @@ void main() {
       expect(PortfolioRoutes.redirect('/projects/extra'), '/');
     });
 
-    test('maps every navbar item to its matching route', () {
-      for (var i = 0; i < PortfolioNavbar.navItems.length; i++) {
+    test('maps every navbar item to its explicitly defined route', () {
+      const expectedRoutes = <String, String>{
+        'Home': '/',
+        'About': '/about',
+        'Skills': '/skills',
+        'Services': '/services',
+        'Projects': '/projects',
+        'Contact': '/contact',
+      };
+
+      expect(PortfolioNavbar.navItems, expectedRoutes.keys.toList());
+
+      for (final entry in expectedRoutes.entries) {
         expect(
           PortfolioRoutes.pathForNavigation(
-            PortfolioNavbar.navItems[i],
+            entry.key,
             PortfolioNavbar.navItems,
           ),
-          PortfolioRoutes.paths[i],
+          entry.value,
         );
       }
     });
