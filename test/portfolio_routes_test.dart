@@ -57,6 +57,35 @@ void main() {
       }
     });
 
+    test('registers all legal pages as direct routes', () {
+      expect(
+        PortfolioRoutes.paths,
+        containsAll([
+          '/privacy-policy',
+          '/terms-and-conditions',
+          '/disclaimer',
+        ]),
+      );
+    });
+
+    test('maps legal footer labels to their routes', () {
+      const expectedLegalRoutes = <String, String>{
+        'Privacy Policy': '/privacy-policy',
+        'Terms & Conditions': '/terms-and-conditions',
+        'Disclaimer': '/disclaimer',
+      };
+
+      for (final entry in expectedLegalRoutes.entries) {
+        expect(
+          PortfolioRoutes.pathForNavigation(
+            entry.key,
+            PortfolioNavbar.navItems,
+          ),
+          entry.value,
+        );
+      }
+    });
+
     test('returns null for unknown navigation labels', () {
       expect(
         PortfolioRoutes.pathForNavigation('Unknown', PortfolioNavbar.navItems),

@@ -318,6 +318,48 @@ class PortfolioFooter extends StatelessWidget {
                 thickness: 1,
               ),
 
+              const SizedBox(height: 22),
+
+              Text(
+                'Legal Information',
+                style: TextStyle(
+                  color: headingColor,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              Wrap(
+                spacing: 22,
+                runSpacing: 12,
+                children: [
+                  _footerLink(
+                    'Privacy Policy',
+                    textColor,
+                    onTap: () => onNavigate('Privacy Policy'),
+                  ),
+                  _footerLink(
+                    'Terms & Conditions',
+                    textColor,
+                    onTap: () => onNavigate('Terms & Conditions'),
+                  ),
+                  _footerLink(
+                    'Disclaimer',
+                    textColor,
+                    onTap: () => onNavigate('Disclaimer'),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 22),
+
+              Divider(
+                color: dividerColor,
+                thickness: 1,
+              ),
+
               const SizedBox(height: 18),
 
               Center(
