@@ -63,7 +63,7 @@
   <script>
     (function () {
       // Keep the loading screen in sync with the preference used by Flutter.
-      const savedTheme = localStorage.getItem('isDarkMode');
+      const savedTheme = localStorage.getItem('flutter.isDarkMode');
       const isDark = savedTheme === 'true';
       const background = isDark ? '#0B1120' : '#F8FAFC';
       document.documentElement.style.backgroundColor = background;
