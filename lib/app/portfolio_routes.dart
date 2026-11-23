@@ -21,10 +21,19 @@ class PortfolioRoutes {
     return normalized == path ? null : normalized;
   }
 
-  /// Maps a navigation label to its route without relying on duplicated indexes.
+  /// Maps navigation labels explicitly so hidden routes do not shift menu links.
   static String? pathForNavigation(String item, List<String> navigationItems) {
-    final index = navigationItems.indexOf(item);
-    if (index < 0 || index >= paths.length) return null;
-    return paths[index];
+    if (!navigationItems.contains(item)) return null;
+
+    return switch (item) {
+      'Home' => '/',
+      'About' => '/about',
+      'Skills' => '/skills',
+      'Services' => '/services',
+      'Projects' => '/projects',
+      'Automation' => '/automation',
+      'Contact' => '/contact',
+      _ => null,
+    };
   }
 }
