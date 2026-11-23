@@ -1,7 +1,6 @@
 name: Validate Portfolio Legal Pages
 
 on:
-  workflow_dispatch:
   pull_request:
     branches:
       - main
