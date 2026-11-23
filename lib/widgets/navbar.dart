@@ -24,7 +24,6 @@ class PortfolioNavbar extends StatelessWidget {
     'Skills',
     'Services',
     'Projects',
-    'Automation',
     'Contact',
   ];
 
@@ -186,7 +185,6 @@ class PortfolioNavigationDrawer extends StatelessWidget {
     Icons.code_rounded,
     Icons.design_services_outlined,
     Icons.work_outline_rounded,
-    Icons.account_tree_outlined,
     Icons.mail_outline_rounded,
   ];
 
