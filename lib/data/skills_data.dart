@@ -41,7 +41,7 @@ const List<SkillData> skillsData = [
   SkillData(
     name: 'Swift (iOS Development)',
     category: 'Mobile Development',
-    icon: Icons.apple,
+    icon: Icons.phone_iphone,
     level: 'Learning',
     score: null,
     description:
