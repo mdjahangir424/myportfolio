@@ -5,7 +5,7 @@ class SkillData {
   final String category;
   final IconData icon;
   final String level;
-  final int score;
+  final int? score;
   final String description;
 
   const SkillData({
@@ -19,7 +19,7 @@ class SkillData {
 }
 
 const List<SkillData> skillsData = [
-  // Flutter & Mobile Development
+  // Mobile Development
   SkillData(
     name: 'Flutter',
     category: 'Mobile Development',
@@ -39,13 +39,13 @@ const List<SkillData> skillsData = [
         'Use object-oriented programming, async operations, null safety, and collections to write reliable Dart code.',
   ),
   SkillData(
-    name: 'Android App Development',
+    name: 'Swift (iOS Development)',
     category: 'Mobile Development',
-    icon: Icons.android,
-    level: 'Advanced',
-    score: 84,
+    icon: Icons.phone_iphone,
+    level: 'Learning',
+    score: null,
     description:
-        'Build native Android apps with Kotlin and Jetpack Compose, including UI, state, navigation, APIs, and Firebase.',
+        'Currently learning Swift and the fundamentals of native iOS application development.',
   ),
 
   // Backend & Database
