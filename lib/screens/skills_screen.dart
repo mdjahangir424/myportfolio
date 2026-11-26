@@ -293,27 +293,27 @@ class _SkillProgressRow extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 9),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  height: 8,
-                  width: double.infinity,
-                  color: colors.surfaceContainerHighest,
-                  alignment: Alignment.centerLeft,
-                  child: FractionallySizedBox(
-                    widthFactor: skill.score == null
-                        ? 0
-                        : (skill.score! / 100) * progress.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: colors.primary,
-                        borderRadius: BorderRadius.circular(20),
+              if (skill.score != null) ...[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    height: 8,
+                    width: double.infinity,
+                    color: colors.surfaceContainerHighest,
+                    alignment: Alignment.centerLeft,
+                    child: FractionallySizedBox(
+                      widthFactor: (skill.score! / 100) * progress.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colors.primary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 7),
+                const SizedBox(height: 7),
+              ],
               Text(
                 skill.description,
                 style: theme.textTheme.bodySmall?.copyWith(
