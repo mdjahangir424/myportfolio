@@ -53,9 +53,9 @@ class SkillsScreen extends StatelessWidget {
                 const SizedBox(height: 38),
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    final columns = constraints.maxWidth >= 1200
-                        ? 4
-                        : constraints.maxWidth >= 700
+                    final columns = constraints.maxWidth >= 1000
+                        ? 3
+                        : constraints.maxWidth >= 640
                             ? 2
                             : 1;
                     const spacing = 20.0;
@@ -64,6 +64,7 @@ class SkillsScreen extends StatelessWidget {
                         columns;
 
                     return Wrap(
+                      alignment: WrapAlignment.center,
                       spacing: spacing,
                       runSpacing: 24,
                       children: List.generate(categories.length, (index) {
