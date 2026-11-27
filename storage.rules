@@ -1,0 +1,10 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Private PDF delivery is disabled until the administrator approval
+    // endpoint and per-user download authorization are deployed.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
