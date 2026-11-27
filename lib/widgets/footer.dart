@@ -94,6 +94,7 @@ class PortfolioFooter extends StatelessWidget {
       'Home',
       'About',
       'Skills',
+      'Courses',
       'Services',
       'Projects',
       'Automation',
