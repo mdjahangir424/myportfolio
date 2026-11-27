@@ -570,22 +570,40 @@ class _BookCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            children: [
-              Text(
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final priceText = Text(
                 '৳$price',
                 style: theme.textTheme.headlineSmall?.copyWith(
                   color: colors.primary,
                   fontWeight: FontWeight.w800,
                 ),
-              ),
-              const Spacer(),
-              FilledButton.icon(
+              );
+              final orderButton = FilledButton.icon(
                 onPressed: onOrder,
                 icon: const Icon(Icons.shopping_bag_outlined, size: 18),
                 label: const Text('অর্ডার করুন'),
-              ),
-            ],
+              );
+
+              if (constraints.maxWidth < 300) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    priceText,
+                    const SizedBox(height: 10),
+                    orderButton,
+                  ],
+                );
+              }
+
+              return Row(
+                children: [
+                  priceText,
+                  const Spacer(),
+                  orderButton,
+                ],
+              );
+            },
           ),
           const SizedBox(height: 8),
           Text(
