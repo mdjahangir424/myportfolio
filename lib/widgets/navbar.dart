@@ -22,7 +22,7 @@ class PortfolioNavbar extends StatelessWidget {
     'Home',
     'About',
     'Skills',
-    'Services',
+    'Courses',
     'Projects',
     'Contact',
   ];
@@ -183,7 +183,7 @@ class PortfolioNavigationDrawer extends StatelessWidget {
     Icons.home_outlined,
     Icons.person_outline_rounded,
     Icons.code_rounded,
-    Icons.design_services_outlined,
+    Icons.menu_book_rounded,
     Icons.work_outline_rounded,
     Icons.mail_outline_rounded,
   ];
