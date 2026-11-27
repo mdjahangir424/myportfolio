@@ -19,15 +19,14 @@ class SkillData {
 }
 
 const List<SkillData> skillsData = [
-  // Mobile Development
+  // Mobile Development — 5 skills
   SkillData(
     name: 'Flutter',
     category: 'Mobile Development',
     icon: Icons.phone_android,
     level: 'Expert',
     score: 98,
-    description:
-        'Build responsive Android and iOS apps with smooth navigation, API and Firebase integration, and reusable components.',
+    description: 'Build cross-platform Android and iOS apps with responsive layouts, navigation, and reusable components.',
   ),
   SkillData(
     name: 'Dart',
@@ -35,8 +34,7 @@ const List<SkillData> skillsData = [
     icon: Icons.code,
     level: 'Expert',
     score: 96,
-    description:
-        'Use object-oriented programming, async operations, null safety, and collections to write reliable Dart code.',
+    description: 'Write reliable application logic using OOP, async programming, null safety, and collections.',
   ),
   SkillData(
     name: 'Swift (iOS Development)',
@@ -44,19 +42,33 @@ const List<SkillData> skillsData = [
     icon: Icons.phone_iphone,
     level: 'Learning',
     score: null,
-    description:
-        'Currently learning Swift and the fundamentals of native iOS application development.',
+    description: 'Currently learning Swift and the fundamentals of native iOS application development.',
+  ),
+  SkillData(
+    name: 'State Management',
+    category: 'Mobile Development',
+    icon: Icons.account_tree,
+    level: 'Advanced',
+    score: 88,
+    description: 'Organize application state and manage data flow across screens and reusable widgets.',
+  ),
+  SkillData(
+    name: 'Responsive UI Design',
+    category: 'Mobile Development',
+    icon: Icons.devices,
+    level: 'Advanced',
+    score: 92,
+    description: 'Create adaptive interfaces that work across different screen sizes and device orientations.',
   ),
 
-  // Backend & Database
+  // Backend & Database — 5 skills
   SkillData(
     name: 'Firebase',
     category: 'Backend & Database',
     icon: Icons.local_fire_department,
     level: 'Expert',
     score: 98,
-    description:
-        'Integrate Firebase Authentication, Firestore, and Storage with secure access, cloud backup, and data synchronization.',
+    description: 'Integrate Firebase services for authentication, databases, storage, backup, and synchronization.',
   ),
   SkillData(
     name: 'Cloud Firestore',
@@ -64,8 +76,7 @@ const List<SkillData> skillsData = [
     icon: Icons.storage,
     level: 'Expert',
     score: 96,
-    description:
-        'Manage NoSQL collections, CRUD operations, real-time updates, Security Rules, offline data, and synchronization.',
+    description: 'Manage NoSQL data, real-time updates, CRUD operations, offline support, and Security Rules.',
   ),
   SkillData(
     name: 'REST API',
@@ -73,19 +84,33 @@ const List<SkillData> skillsData = [
     icon: Icons.api,
     level: 'Advanced',
     score: 90,
-    description:
-        'Connect apps to backend services using HTTP and JSON, handling tokens, responses, and API errors.',
+    description: 'Connect applications to backend services and handle HTTP requests, JSON, tokens, and errors.',
+  ),
+  SkillData(
+    name: 'Firebase Authentication',
+    category: 'Backend & Database',
+    icon: Icons.verified_user,
+    level: 'Advanced',
+    score: 94,
+    description: 'Implement user sign-in, registration, session handling, and access-aware application flows.',
+  ),
+  SkillData(
+    name: 'Firebase Storage',
+    category: 'Backend & Database',
+    icon: Icons.cloud_upload,
+    level: 'Advanced',
+    score: 88,
+    description: 'Upload, store, and retrieve application files using Firebase Storage and access controls.',
   ),
 
-  // AI & Automation
+  // AI & Automation — 5 skills
   SkillData(
     name: 'AI Agent Development',
     category: 'AI & Automation',
     icon: Icons.smart_toy,
     level: 'Advanced',
     score: 92,
-    description:
-        'Build AI agents that understand requests, generate responses, and automate tasks using models and tools.',
+    description: 'Build AI agents that understand requests, generate responses, and automate tasks using models and tools.',
   ),
   SkillData(
     name: 'n8n Workflow Automation',
@@ -93,8 +118,7 @@ const List<SkillData> skillsData = [
     icon: Icons.account_tree,
     level: 'Advanced',
     score: 82,
-    description:
-        'Automate tasks in n8n by connecting apps, APIs, triggers, actions, and webhooks.',
+    description: 'Automate tasks by connecting apps, APIs, triggers, actions, and workflows in n8n.',
   ),
   SkillData(
     name: 'OpenAI API',
@@ -102,8 +126,7 @@ const List<SkillData> skillsData = [
     icon: Icons.psychology,
     level: 'Advanced',
     score: 91,
-    description:
-        'Integrate OpenAI models for chat, text generation, prompt handling, and application workflows.',
+    description: 'Integrate OpenAI models for chat, text generation, prompt handling, and application workflows.',
   ),
   SkillData(
     name: 'Google Gemini API',
@@ -111,8 +134,7 @@ const List<SkillData> skillsData = [
     icon: Icons.auto_awesome,
     level: 'Advanced',
     score: 90,
-    description:
-        'Use Gemini API for conversational features, content generation, contextual responses, and AI-assisted tools.',
+    description: 'Use Gemini for conversational features, contextual responses, and AI-assisted tools.',
   ),
   SkillData(
     name: 'Webhooks',
@@ -120,18 +142,48 @@ const List<SkillData> skillsData = [
     icon: Icons.webhook,
     level: 'Advanced',
     score: 85,
-    description:
-        'Connect services with webhooks, process event payloads, and trigger automated workflows.',
+    description: 'Connect services, process event payloads, and trigger automated workflows securely.',
   ),
 
-  // Development Tools
+  // Development Tools — 5 skills
   SkillData(
     name: 'Git & GitHub',
     category: 'Development Tools',
     icon: Icons.code_outlined,
     level: 'Advanced',
     score: 90,
-    description:
-        'Manage code with Git and GitHub using repositories, commits, branches, pull requests, and merges.',
+    description: 'Manage source code with repositories, commits, branches, pull requests, and merges.',
+  ),
+  SkillData(
+    name: 'GitHub Actions',
+    category: 'Development Tools',
+    icon: Icons.rocket_launch,
+    level: 'Advanced',
+    score: 85,
+    description: 'Configure CI workflows for automated checks, builds, and deployment pipelines.',
+  ),
+  SkillData(
+    name: 'Postman',
+    category: 'Development Tools',
+    icon: Icons.http,
+    level: 'Advanced',
+    score: 86,
+    description: 'Test REST endpoints, inspect responses, and validate request headers and authorization.',
+  ),
+  SkillData(
+    name: 'Visual Studio Code',
+    category: 'Development Tools',
+    icon: Icons.code,
+    level: 'Advanced',
+    score: 95,
+    description: 'Use editor tooling, extensions, debugging, and integrated terminal for development.',
+  ),
+  SkillData(
+    name: 'Firebase CLI',
+    category: 'Development Tools',
+    icon: Icons.terminal,
+    level: 'Advanced',
+    score: 85,
+    description: 'Configure Firebase projects and deploy web applications using command-line workflows.',
   ),
 ];
