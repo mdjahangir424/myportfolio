@@ -7,6 +7,7 @@ class PortfolioRoutes {
     '/about',
     '/skills',
     '/services',
+    '/courses',
     '/projects',
     '/automation',
     '/contact',
@@ -28,6 +29,7 @@ class PortfolioRoutes {
   static String? pathForNavigation(String item, List<String> navigationItems) {
     if (!navigationItems.contains(item)) {
       return switch (item) {
+        'Services' => '/services',
         'Privacy Policy' => '/privacy-policy',
         'Terms & Conditions' => '/terms-and-conditions',
         'Disclaimer' => '/disclaimer',
@@ -39,7 +41,7 @@ class PortfolioRoutes {
       'Home' => '/',
       'About' => '/about',
       'Skills' => '/skills',
-      'Services' => '/services',
+      'Courses' => '/courses',
       'Projects' => '/projects',
       'Automation' => '/automation',
       'Contact' => '/contact',
