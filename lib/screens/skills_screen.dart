@@ -3,6 +3,7 @@ import 'dart:ui' show FontFeature;
 import 'package:flutter/material.dart';
 
 import '../data/skills_data.dart';
+import '../data/services_data.dart';
 import '../widgets/section_title.dart';
 import '../widgets/shared_screen_layout.dart';
 
@@ -85,6 +86,8 @@ class SkillsScreen extends StatelessWidget {
                     );
                   },
                 ),
+                const SizedBox(height: 64),
+                _ServicesPreview(onNavigate: onNavigate),
               ],
             ),
           ),
@@ -350,6 +353,133 @@ class _SkillProgressRow extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+
+class _ServicesPreview extends StatelessWidget {
+  final ValueChanged<String> onNavigate;
+
+  const _ServicesPreview({required this.onNavigate});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'My Services',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            TextButton.icon(
+              onPressed: () => onNavigate('Services'),
+              icon: const Icon(Icons.arrow_forward_rounded, size: 18),
+              label: const Text('View All Services'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Professional development and automation solutions.',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: 24),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth >= 900
+                ? 3
+                : constraints.maxWidth >= 580
+                    ? 2
+                    : 1;
+            const spacing = 20.0;
+            final cardWidth = (constraints.maxWidth -
+                    spacing * (columns - 1)) /
+                columns;
+
+            return Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children: servicesData.take(3).map((service) {
+                return SizedBox(
+                  width: cardWidth,
+                  child: Container(
+                    padding: const EdgeInsets.all(22),
+                    decoration: BoxDecoration(
+                      color: theme.cardColor,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: colors.outlineVariant),
+                      boxShadow: [
+                        BoxShadow(
+                          color: colors.shadow.withValues(alpha: 0.035),
+                          blurRadius: 18,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: colors.primary.withValues(alpha: 0.10),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Icon(
+                            service.icon,
+                            color: colors.primary,
+                            size: 25,
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        Text(
+                          service.title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          service.description,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            height: 1.55,
+                            color: colors.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: () => onNavigate('Services'),
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            minimumSize: const Size(0, 36),
+                            alignment: Alignment.centerLeft,
+                          ),
+                          child: const Text('View Details'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }).toList(),
+            );
+          },
+        ),
+      ],
     );
   }
 }
