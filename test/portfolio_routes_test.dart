@@ -7,6 +7,7 @@ void main() {
     test('keeps Automation directly accessible without showing it in navigation', () {
       expect(PortfolioRoutes.paths, contains('/automation'));
       expect(PortfolioNavbar.navItems, isNot(contains('Automation')));
+      expect(PortfolioNavbar.navItems, isNot(contains('Services')));
       expect(
         PortfolioRoutes.pathForNavigation(
           'Automation',
@@ -39,7 +40,7 @@ void main() {
         'Home': '/',
         'About': '/about',
         'Skills': '/skills',
-        'Services': '/services',
+        'Courses': '/courses',
         'Projects': '/projects',
         'Contact': '/contact',
       };
@@ -55,6 +56,18 @@ void main() {
           entry.value,
         );
       }
+    });
+
+    test('keeps Services available from the Skills preview and footer, not navbar', () {
+      expect(PortfolioRoutes.paths, contains('/services'));
+      expect(PortfolioNavbar.navItems, isNot(contains('Services')));
+      expect(
+        PortfolioRoutes.pathForNavigation(
+          'Services',
+          PortfolioNavbar.navItems,
+        ),
+        '/services',
+      );
     });
 
     test('registers all legal pages as direct routes', () {
