@@ -19,7 +19,7 @@ It does not mark payments as paid and does not expose book files.
 8. Publish the repository's `firestore.rules` and `storage.rules` in Firebase Console, or deploy them with Firebase CLI after authenticating to the correct project:
    `firebase deploy --only firestore:rules,storage`.
 
-The `admins` document must be created manually by the project owner in Firebase Console. The app intentionally denies client-side reads and writes to this collection.
+The `admins` document must be created manually by the project owner in Firebase Console. The app intentionally denies client-side reads and writes to this collection. The admin dashboard checks the configured administrator UID locally, while Firestore Rules remain the authoritative gate for reading and changing orders.
 
 ## Current security state
 
@@ -29,11 +29,11 @@ The `admins` document must be created manually by the project owner in Firebase 
 - Only the UID allow-listed in `admins` can read orders or change a pending order to approved/rejected.
 - Clients cannot delete orders or edit customer/payment details after submission.
 - Storage denies all reads and writes. PDF downloads remain disabled until secure delivery is implemented.
-- Payment verification remains manual. An order submission is not proof of payment.
+- Payment verification remains manual. An order submission is not proof of payment. Check the payment provider transaction in the relevant merchant/personal account before approving.
 
 ## Administrator workflow status
 
-The UID-based Firestore authorization is prepared in the repository. The admin document and rules still need to be created/published in Firebase Console. A browser-based admin dashboard has not yet been implemented, so do not assume order review is available in the website UI.
+The UID-based Firestore authorization is prepared in the repository. The admin document and rules still need to be created/published in Firebase Console. The browser-based admin dashboard is available at `https://myportfolio-f6cfb.web.app/#/admin/orders`. Sign in with the existing administrator email/password account. The dashboard is not linked from the public navigation. It lists up to 100 latest orders, supports status filters, and permits Approve/Reject only for pending orders. Firestore Rules enforce the administrator UID and active allow-list document; a matching email address alone is not sufficient.
 
 ## PDF handling
 
