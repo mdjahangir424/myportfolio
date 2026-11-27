@@ -17,7 +17,12 @@ void main() {
       expect(find.text('Online Courses'), findsOneWidget);
       expect(find.text('PDF Books & eBooks'), findsOneWidget);
       expect(find.text('Digital Products'), findsOneWidget);
-      expect(find.text('Learning Store Is Being Prepared'), findsOneWidget);
+      expect(find.text('Published PDF Books'), findsOneWidget);
+      expect(find.text('Flutter Basic to Advanced'), findsOneWidget);
+      expect(find.text('AI Automation: শূন্য থেকে অ্যাডভান্সড'), findsOneWidget);
+      expect(find.text('৳299'), findsOneWidget);
+      expect(find.text('৳199'), findsOneWidget);
+      expect(find.text('More Learning Resources Coming Soon'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
