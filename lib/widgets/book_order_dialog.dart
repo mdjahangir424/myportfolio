@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/digital_product.dart';
 
 class BookOrderDialog extends StatefulWidget {
@@ -216,11 +217,11 @@ class _PaymentNumber extends StatelessWidget {
         trailing: IconButton(
           tooltip: 'নম্বর কপি করুন',
           icon: const Icon(Icons.copy_rounded),
-          onPressed: () {
-            // Clipboard is available through Flutter's standard services.
-            // ignore: deprecated_member_use
+          onPressed: () async {
+            await Clipboard.setData(ClipboardData(text: number));
+            if (!context.mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('$label: $number')),
+              SnackBar(content: Text('$label নম্বর কপি হয়েছে')),
             );
           },
         ),
