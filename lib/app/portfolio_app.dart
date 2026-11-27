@@ -16,6 +16,7 @@ import '../screens/projects_screen.dart' deferred as projects;
 import '../screens/automation_screen.dart' deferred as automation;
 import '../screens/contact_screen.dart' deferred as contact;
 import '../screens/legal_screen.dart';
+import '../screens/admin_orders_screen.dart';
 
 class PortfolioApp extends StatefulWidget {
   final bool initialDarkMode;
@@ -68,6 +69,14 @@ class _PortfolioAppState extends State<PortfolioApp> {
             );
           },
           routes: [
+            GoRoute(
+              path: '/admin/orders',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Learning Store Admin | Md Jahangir Alam',
+                const AdminOrdersScreen(),
+              ),
+            ),
             GoRoute(
               path: '/',
               pageBuilder: (context, state) => _page(
