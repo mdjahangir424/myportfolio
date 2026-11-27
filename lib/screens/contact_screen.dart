@@ -116,23 +116,20 @@ class _ContactScreenState extends State<ContactScreen> {
                             ],
                           );
                         }
-                        final available = constraints.maxWidth - gap;
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: available * 0.43,
-                              child: _buildIntroCard(context),
-                            ),
-                            const SizedBox(width: gap),
-                            SizedBox(
-                              width: available * 0.57,
-                              child: _buildFormCard(context),
-                            ),
-                          ],
+                        return IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Expanded(child: _buildIntroCard(context)),
+                              const SizedBox(width: gap),
+                              Expanded(child: _buildFormCard(context)),
+                            ],
+                          ),
                         );
                       },
                     ),
+                    const SizedBox(height: 24),
+                    _buildSocialSection(context),
                   ],
                 ),
               ),
@@ -187,6 +184,22 @@ class _ContactScreenState extends State<ContactScreen> {
           const SizedBox(height: 8),
           Divider(color: theme.dividerColor.withValues(alpha: 0.4)),
           const SizedBox(height: 20),
+
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSocialSection(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
+    return _cardShell(
+      context,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
             'Connect With Me',
             style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -194,37 +207,71 @@ class _ContactScreenState extends State<ContactScreen> {
           const SizedBox(height: 8),
           Text(
             'Find me on social media or send me a message.',
-            style: theme.textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.onSurfaceVariant,
+            ),
           ),
-          const SizedBox(height: 18),
-          ...socialData.map(
-            (social) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Material(
-                color: colors.primary.withValues(alpha: isDark ? 0.12 : 0.055),
-                borderRadius: BorderRadius.circular(13),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(13),
-                  onTap: () => _openLink(social.url),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-                    child: Row(
-                      children: [
-                        Icon(social.icon, color: colors.primary, size: 21),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            social.name,
-                            style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          const SizedBox(height: 20),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final count = constraints.maxWidth >= 760
+                  ? 4
+                  : constraints.maxWidth >= 480
+                      ? 3
+                      : constraints.maxWidth >= 300
+                          ? 2
+                          : 1;
+              const spacing = 12.0;
+              final itemWidth =
+                  (constraints.maxWidth - spacing * (count - 1)) / count;
+
+              return Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: socialData.map((social) {
+                  return SizedBox(
+                    width: itemWidth,
+                    child: Material(
+                      color: colors.primary.withValues(
+                        alpha: isDark ? 0.12 : 0.055,
+                      ),
+                      borderRadius: BorderRadius.circular(13),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(13),
+                        onTap: () => _openLink(social.url),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 15,
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(social.icon, color: colors.primary, size: 21),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  social.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.open_in_new_rounded,
+                                size: 14,
+                                color: colors.primary,
+                              ),
+                            ],
                           ),
                         ),
-                        Icon(Icons.open_in_new_rounded, size: 15, color: colors.primary),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
