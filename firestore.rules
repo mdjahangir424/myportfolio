@@ -3,7 +3,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null
-        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin'
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
     function validOrder(data) {
@@ -44,7 +46,7 @@ service cloud.firestore {
     }
 
     match /admins/{adminUid} {
-      // Only project owners should manage this allow-list in Firebase Console.
+      // Admin allow-list is managed only by the project owner in Firebase Console.
       allow read, write: if false;
     }
 
