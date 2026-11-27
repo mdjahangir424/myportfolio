@@ -19,7 +19,7 @@ class SkillData {
 }
 
 const List<SkillData> skillsData = [
-  // Mobile Development — 5 skills
+  // Mobile Development — 4 skills
   SkillData(
     name: 'Flutter',
     category: 'Mobile Development',
@@ -45,14 +45,6 @@ const List<SkillData> skillsData = [
     description: 'Work with native Android development concepts using Kotlin alongside cross-platform Flutter development.',
   ),
   SkillData(
-    name: 'State Management',
-    category: 'Mobile Development',
-    icon: Icons.account_tree,
-    level: 'Advanced',
-    score: 88,
-    description: 'Organize application state and manage data flow across screens and reusable widgets.',
-  ),
-  SkillData(
     name: 'Responsive UI Design',
     category: 'Mobile Development',
     icon: Icons.devices,
@@ -61,7 +53,7 @@ const List<SkillData> skillsData = [
     description: 'Create adaptive interfaces that work across different screen sizes and device orientations.',
   ),
 
-  // Backend & Database — 5 skills
+  // Backend & Database — 4 skills
   SkillData(
     name: 'Firebase',
     category: 'Backend & Database',
@@ -94,16 +86,8 @@ const List<SkillData> skillsData = [
     score: 94,
     description: 'Implement user sign-in, registration, session handling, and access-aware application flows.',
   ),
-  SkillData(
-    name: 'Firebase Storage',
-    category: 'Backend & Database',
-    icon: Icons.cloud_upload,
-    level: 'Advanced',
-    score: 88,
-    description: 'Upload, store, and retrieve application files using Firebase Storage and access controls.',
-  ),
 
-  // AI & Automation — 5 skills
+  // AI & Automation — 4 skills
   SkillData(
     name: 'AI Agent Development',
     category: 'AI & Automation',
@@ -136,16 +120,8 @@ const List<SkillData> skillsData = [
     score: 90,
     description: 'Use Gemini for conversational features, contextual responses, and AI-assisted tools.',
   ),
-  SkillData(
-    name: 'Webhooks',
-    category: 'AI & Automation',
-    icon: Icons.webhook,
-    level: 'Advanced',
-    score: 85,
-    description: 'Connect services, process event payloads, and trigger automated workflows securely.',
-  ),
 
-  // Development Tools — 5 skills
+  // Development Tools — 4 skills
   SkillData(
     name: 'Git & GitHub',
     category: 'Development Tools',
@@ -169,14 +145,6 @@ const List<SkillData> skillsData = [
     level: 'Advanced',
     score: 86,
     description: 'Publish and manage Flutter web applications using Firebase Hosting configuration and deployment.',
-  ),
-  SkillData(
-    name: 'Flutter Web Deployment',
-    category: 'Development Tools',
-    icon: Icons.web,
-    level: 'Advanced',
-    score: 88,
-    description: 'Prepare release builds and configure base paths and hosting for Flutter web projects.',
   ),
   SkillData(
     name: 'Firebase CLI',
