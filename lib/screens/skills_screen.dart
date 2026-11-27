@@ -37,13 +37,10 @@ class SkillsScreen extends StatelessWidget {
       },
       child: SharedScreenLayout(
         onNavigate: onNavigate,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 56,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 56),
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1000),
+            constraints: const BoxConstraints(maxWidth: 1100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -54,18 +51,35 @@ class SkillsScreen extends StatelessWidget {
                       'modern applications and intelligent solutions.',
                 ),
                 const SizedBox(height: 38),
-                ...List.generate(categories.length, (index) {
-                  final category = categories[index];
-                  final categorySkills = skillsData
-                      .where((skill) => skill.category == category)
-                      .toList();
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final isDesktop = constraints.maxWidth >= 760;
+                    final blockWidth = isDesktop
+                        ? (constraints.maxWidth - 24) / 2
+                        : constraints.maxWidth;
 
-                  return _SkillCategoryBlock(
-                    key: categoryKeys[index],
-                    category: category,
-                    skills: categorySkills,
-                  );
-                }),
+                    return Wrap(
+                      spacing: 24,
+                      runSpacing: 24,
+                      crossAxisAlignment: WrapCrossAlignment.stretch,
+                      children: List.generate(categories.length, (index) {
+                        final category = categories[index];
+                        final categorySkills = skillsData
+                            .where((skill) => skill.category == category)
+                            .toList();
+
+                        return SizedBox(
+                          width: blockWidth,
+                          child: _SkillCategoryBlock(
+                            key: categoryKeys[index],
+                            category: category,
+                            skills: categorySkills,
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -101,7 +115,7 @@ class _SkillCategoryBlockState extends State<_SkillCategoryBlock>
         .map(
           (_) => AnimationController(
             vsync: this,
-            duration: const Duration(milliseconds: 1350),
+            duration: const Duration(milliseconds: 1200),
           ),
         )
         .toList();
@@ -125,7 +139,7 @@ class _SkillCategoryBlockState extends State<_SkillCategoryBlock>
 
     _hasStarted = true;
     for (var index = 0; index < _controllers.length; index++) {
-      Future<void>.delayed(Duration(milliseconds: index * 130), () {
+      Future<void>.delayed(Duration(milliseconds: index * 110), () {
         if (mounted) _controllers[index].forward();
       });
     }
@@ -145,8 +159,8 @@ class _SkillCategoryBlockState extends State<_SkillCategoryBlock>
     final colors = theme.colorScheme;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 24),
-      padding: const EdgeInsets.fromLTRB(22, 22, 22, 10),
+      height: double.infinity,
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
@@ -183,7 +197,7 @@ class _SkillCategoryBlockState extends State<_SkillCategoryBlock>
               ),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
+                  horizontal: 10,
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
@@ -242,32 +256,34 @@ class _SkillProgressRow extends StatelessWidget {
             : (skill.score! * progress.value).round();
 
         return Padding(
-          padding: EdgeInsets.only(bottom: isLast ? 12 : 20),
+          padding: EdgeInsets.only(bottom: isLast ? 12 : 17),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
                   Container(
-                    width: 36,
-                    height: 36,
+                    width: 34,
+                    height: 34,
                     decoration: BoxDecoration(
                       color: colors.primary.withValues(alpha: 0.10),
-                      borderRadius: BorderRadius.circular(11),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(
                       skill.icon,
                       color: colors.primary,
-                      size: 19,
+                      size: 18,
                     ),
                   ),
-                  const SizedBox(width: 11),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           skill.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.w700,
                           ),
@@ -282,6 +298,7 @@ class _SkillProgressRow extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(width: 6),
                   Text(
                     animatedScore == null ? 'Learning' : '$animatedScore%',
                     style: theme.textTheme.titleSmall?.copyWith(
@@ -292,12 +309,12 @@ class _SkillProgressRow extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 9),
+              const SizedBox(height: 8),
               if (skill.score != null) ...[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
-                    height: 8,
+                    height: 7,
                     width: double.infinity,
                     color: colors.surfaceContainerHighest,
                     alignment: Alignment.centerLeft,
@@ -312,12 +329,14 @@ class _SkillProgressRow extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 7),
+                const SizedBox(height: 6),
               ],
               Text(
                 skill.description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  height: 1.5,
+                  height: 1.4,
                   color: theme.textTheme.bodySmall?.color?.withValues(
                     alpha: 0.75,
                   ),
