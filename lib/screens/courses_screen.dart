@@ -407,7 +407,7 @@ class _CategoryCard extends StatelessWidget {
               height: 1.55,
             ),
           ),
-          const Spacer(),
+          const SizedBox(height: 18),
           Text(
             category.tag,
             style: theme.textTheme.labelSmall?.copyWith(
