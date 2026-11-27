@@ -11,6 +11,7 @@ import '../screens/home_screen.dart';
 import '../screens/about_screen.dart' deferred as about;
 import '../screens/skills_screen.dart' deferred as skills;
 import '../screens/services_screen.dart' deferred as services;
+import '../screens/courses_screen.dart' deferred as courses;
 import '../screens/projects_screen.dart' deferred as projects;
 import '../screens/automation_screen.dart' deferred as automation;
 import '../screens/contact_screen.dart' deferred as contact;
@@ -113,6 +114,19 @@ class _PortfolioAppState extends State<PortfolioApp> {
                 _DeferredScreen(
                   loadLibrary: services.loadLibrary,
                   builder: (_) => services.ServicesScreen(
+                    onNavigate: _navigateTo,
+                  ),
+                ),
+              ),
+            ),
+            GoRoute(
+              path: '/courses',
+              pageBuilder: (context, state) => _page(
+                state,
+                'Courses & Books | Md Jahangir Alam',
+                _DeferredScreen(
+                  loadLibrary: courses.loadLibrary,
+                  builder: (_) => courses.CoursesScreen(
                     onNavigate: _navigateTo,
                   ),
                 ),
