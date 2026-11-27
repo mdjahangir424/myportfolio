@@ -13,8 +13,34 @@ void main() {
       );
     });
 
-    test('does not advertise unconfigured products', () {
-      expect(digitalProducts, isEmpty);
+    test('contains the two confirmed paid Bengali PDF books', () {
+      expect(digitalProducts, hasLength(2));
+      expect(
+        digitalProducts.map((product) => product.title),
+        containsAll([
+          'Flutter Basic to Advanced',
+          'AI Automation: শূন্য থেকে অ্যাডভান্সড',
+        ]),
+      );
+      expect(digitalProducts.every((product) => product.isPublished), isTrue);
+      expect(
+        digitalProducts.every((product) => product.type == DigitalProductType.ebook),
+        isTrue,
+      );
+    });
+
+    test('stores the confirmed prices in BDT poisha', () {
+      final flutterBook = digitalProducts.singleWhere(
+        (product) => product.id == 'flutter-basic-to-advanced',
+      );
+      final aiBook = digitalProducts.singleWhere(
+        (product) => product.id == 'ai-automation-zero-to-advanced',
+      );
+
+      expect(flutterBook.priceMinor, 29900);
+      expect(aiBook.priceMinor, 19900);
+      expect(flutterBook.currency, 'BDT');
+      expect(aiBook.currency, 'BDT');
     });
 
     test('product model stores confirmed product details', () {
