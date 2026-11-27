@@ -40,7 +40,7 @@ class SkillsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 56),
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1100),
+            constraints: const BoxConstraints(maxWidth: 1320),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -53,13 +53,18 @@ class SkillsScreen extends StatelessWidget {
                 const SizedBox(height: 38),
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    final isDesktop = constraints.maxWidth >= 760;
-                    final blockWidth = isDesktop
-                        ? (constraints.maxWidth - 24) / 2
-                        : constraints.maxWidth;
+                    final columns = constraints.maxWidth >= 1200
+                        ? 4
+                        : constraints.maxWidth >= 700
+                            ? 2
+                            : 1;
+                    const spacing = 20.0;
+                    final blockWidth = (constraints.maxWidth -
+                            spacing * (columns - 1)) /
+                        columns;
 
                     return Wrap(
-                      spacing: 24,
+                      spacing: spacing,
                       runSpacing: 24,
                       children: List.generate(categories.length, (index) {
                         final category = categories[index];
