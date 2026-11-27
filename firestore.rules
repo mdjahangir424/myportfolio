@@ -1,23 +1,32 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
     function validOrder(data) {
       return data.keys().hasOnly([
-          'productId', 'productTitle', 'amount', 'currency',
+          'customerUid', 'productId', 'productTitle', 'amount', 'currency',
           'customerName', 'customerPhone', 'paymentMethod',
           'transactionId', 'senderPhone', 'status', 'createdAt'
         ])
         && data.keys().hasAll([
-          'productId', 'productTitle', 'amount', 'currency',
+          'customerUid', 'productId', 'productTitle', 'amount', 'currency',
           'customerName', 'customerPhone', 'paymentMethod',
           'transactionId', 'senderPhone', 'status', 'createdAt'
         ])
-        && data.productId in [
-          'flutter-basic-to-advanced',
-          'ai-automation-zero-to-advanced'
-        ]
-        && data.amount is int
-        && data.amount in [29900, 19900]
+        && data.customerUid == request.auth.uid
+        && (
+          (data.productId == 'flutter-basic-to-advanced'
+            && data.productTitle == 'Flutter Basic to Advanced'
+            && data.amount == 29900)
+          ||
+          (data.productId == 'ai-automation-zero-to-advanced'
+            && data.productTitle == 'AI Automation: শূন্য থেকে অ্যাডভান্সড'
+            && data.amount == 19900)
+        )
         && data.currency == 'BDT'
         && data.customerName is string
         && data.customerName.size() >= 2
@@ -34,12 +43,23 @@ service cloud.firestore {
         && data.createdAt == request.time;
     }
 
+    match /admins/{adminUid} {
+      // Only project owners should manage this allow-list in Firebase Console.
+      allow read, write: if false;
+    }
+
     match /orders/{orderId} {
       allow create: if request.auth != null
         && validOrder(request.resource.data);
-      // Reads, updates and deletes remain denied until an authenticated
-      // administrator workflow with explicit UID-based authorization exists.
-      allow read, update, delete: if false;
+      allow get, list: if isAdmin();
+      allow update: if isAdmin()
+        && resource.data.status == 'pending'
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['status', 'reviewedAt', 'reviewedBy'])
+        && request.resource.data.status in ['approved', 'rejected']
+        && request.resource.data.reviewedAt == request.time
+        && request.resource.data.reviewedBy == request.auth.uid;
+      allow delete: if false;
     }
   }
 }
