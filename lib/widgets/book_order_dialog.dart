@@ -66,11 +66,20 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
 
       if (!mounted) return;
       Navigator.of(context).pop(ref.id);
-    } catch (error) {
+    } on FirebaseException catch (error, stackTrace) {
+      debugPrint('Learning Store order failed: ${error.code}: ${error.message}');
+      debugPrintStack(stackTrace: stackTrace);
       if (!mounted) return;
       setState(() {
-        _error = 'অর্ডার জমা হয়নি। Firebase Authentication ও Firestore '
-            'সেটআপ এবং Rules প্রকাশিত আছে কি না যাচাই করুন।';
+        _error = 'Firebase Error [${error.code}]: '
+            '${error.message ?? 'বিস্তারিত বার্তা পাওয়া যায়নি'}';
+      });
+    } catch (error, stackTrace) {
+      debugPrint('Unexpected Learning Store order error: $error');
+      debugPrintStack(stackTrace: stackTrace);
+      if (!mounted) return;
+      setState(() {
+        _error = 'অপ্রত্যাশিত সমস্যা: $error';
       });
     } finally {
       if (mounted) setState(() => _submitting = false);
