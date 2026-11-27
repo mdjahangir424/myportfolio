@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../data/digital_products_data.dart';
+import '../models/digital_product.dart';
 import '../widgets/section_title.dart';
 import '../widgets/shared_screen_layout.dart';
 
@@ -98,7 +100,9 @@ class CoursesScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 46),
+              const SizedBox(height: 42),
+              _buildBookCatalog(context),
+              const SizedBox(height: 34),
               _buildComingSoon(context),
               const SizedBox(height: 28),
               _buildContactBanner(context),
@@ -213,6 +217,61 @@ class CoursesScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildBookCatalog(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final books = digitalProducts
+        .where((product) => product.isPublished && product.type == DigitalProductType.ebook)
+        .toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Published PDF Books',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Bengali learning guides written by Md Jahangir Alam.',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colors.onSurfaceVariant,
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 20),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final count = constraints.maxWidth >= 850
+                ? 2
+                : 1;
+            const spacing = 18.0;
+            final itemWidth =
+                (constraints.maxWidth - spacing * (count - 1)) / count;
+
+            return Wrap(
+              spacing: spacing,
+              runSpacing: spacing,
+              children: books
+                  .map(
+                    (book) => SizedBox(
+                      width: itemWidth,
+                      child: _BookCard(
+                        product: book,
+                        onOrder: () => onNavigate('Contact'),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
   Widget _buildComingSoon(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
@@ -234,16 +293,15 @@ class CoursesScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Learning Store Is Being Prepared',
+                  'More Learning Resources Coming Soon',
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 7),
                 Text(
-                  'Course lessons, book details, product previews, and pricing '
-                  'will appear here as each resource is published. No sample '
-                  'products or prices are displayed as real offers.',
+                  'New video courses and practical digital resources will be added here. '
+                  'The two published Bengali PDF books are available to order above.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: colors.onSurfaceVariant,
                     height: 1.65,
@@ -414,6 +472,126 @@ class _CategoryCard extends StatelessWidget {
               color: category.accent,
               fontWeight: FontWeight.bold,
               letterSpacing: 0.8,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BookCard extends StatelessWidget {
+  final DigitalProduct product;
+  final VoidCallback onOrder;
+
+  const _BookCard({
+    required this.product,
+    required this.onOrder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final price = product.priceMinor ~/ 100;
+
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: colors.outlineVariant),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(
+              alpha: theme.brightness == Brightness.dark ? 0.10 : 0.035,
+            ),
+            blurRadius: 18,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 48,
+                width: 48,
+                decoration: BoxDecoration(
+                  color: colors.primary.withValues(alpha: 0.11),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Icon(Icons.menu_book_rounded, color: colors.primary),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  'BENGALI PDF EBOOK',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: colors.primary,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDCFCE7),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  'AVAILABLE',
+                  style: TextStyle(
+                    color: Color(0xFF166534),
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Text(
+            product.title,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            product.description,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: colors.onSurfaceVariant,
+              height: 1.6,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Text(
+                '৳$price',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: colors.primary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const Spacer(),
+              FilledButton.icon(
+                onPressed: onOrder,
+                icon: const Icon(Icons.shopping_bag_outlined, size: 18),
+                label: const Text('অর্ডার করুন'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'অর্ডার ও পেমেন্টের বিস্তারিত জানতে যোগাযোগ করুন।',
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: colors.onSurfaceVariant,
             ),
           ),
         ],
