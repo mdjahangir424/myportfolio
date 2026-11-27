@@ -36,10 +36,9 @@ class _AdminOrdersScreenState extends State<AdminOrdersScreen> {
 
   Future<bool> _isAuthorized(User user) async {
     if (user.uid != _adminUid || user.isAnonymous) return false;
-    final doc = await FirebaseFirestore.instance
-        .collection('admins').doc(user.uid).get();
-    final data = doc.data();
-    return doc.exists && data?['role'] == 'admin' && data?['active'] == true;
+    // Firestore Rules validate the active admin allow-list before orders
+    // can be read or changed. Client reads of /admins are intentionally denied.
+    return true;
   }
 
   Future<void> _restoreSession() async {
