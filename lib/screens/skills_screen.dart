@@ -61,7 +61,6 @@ class SkillsScreen extends StatelessWidget {
                     return Wrap(
                       spacing: 24,
                       runSpacing: 24,
-                      crossAxisAlignment: WrapCrossAlignment.stretch,
                       children: List.generate(categories.length, (index) {
                         final category = categories[index];
                         final categorySkills = skillsData
