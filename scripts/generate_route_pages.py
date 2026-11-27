@@ -2,7 +2,7 @@ from pathlib import Path
 import html
 import re
 
-ROUTES = ("about", "skills", "services", "projects", "automation", "contact")
+ROUTES = ("about", "skills", "services", "courses", "projects", "automation", "contact")
 CANONICAL_ORIGIN = "https://myportfolio-f6cfb.web.app"
 LEGAL_PAGES = {
     "privacy-policy": {
