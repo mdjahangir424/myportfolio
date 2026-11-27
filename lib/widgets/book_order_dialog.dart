@@ -50,7 +50,8 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
       }
 
       final ref = await FirebaseFirestore.instance.collection('orders').add({
-        'customerUid': credential.user!.uid,\n        'productId': widget.product.id,
+        'customerUid': credential.user!.uid,
+        'productId': widget.product.id,
         'productTitle': widget.product.title,
         'amount': widget.product.priceMinor,
         'currency': widget.product.currency,
