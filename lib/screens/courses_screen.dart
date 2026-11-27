@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/digital_products_data.dart';
 import '../models/digital_product.dart';
 import '../widgets/section_title.dart';
+import '../widgets/book_order_dialog.dart';
 import '../widgets/shared_screen_layout.dart';
 
 class CoursesScreen extends StatelessWidget {
@@ -260,7 +261,7 @@ class CoursesScreen extends StatelessWidget {
                       width: itemWidth,
                       child: _BookCard(
                         product: book,
-                        onOrder: () => onNavigate('Contact'),
+                        onOrder: () => _showOrderDialog(context, book),
                       ),
                     ),
                   )
@@ -269,6 +270,24 @@ class CoursesScreen extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  Future<void> _showOrderDialog(
+    BuildContext context,
+    DigitalProduct product,
+  ) async {
+    final orderId = await showDialog<String>(
+      context: context,
+      builder: (_) => BookOrderDialog(product: product),
+    );
+
+    if (!context.mounted || orderId == null) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('অর্ডার জমা হয়েছে। Order ID: $orderId'),
+        duration: const Duration(seconds: 8),
+      ),
     );
   }
 
