@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function validOrder(data) {
+      return data.keys().hasOnly([
+          'productId', 'productTitle', 'amount', 'currency',
+          'customerName', 'customerPhone', 'paymentMethod',
+          'transactionId', 'senderPhone', 'status', 'createdAt'
+        ])
+        && data.keys().hasAll([
+          'productId', 'productTitle', 'amount', 'currency',
+          'customerName', 'customerPhone', 'paymentMethod',
+          'transactionId', 'senderPhone', 'status', 'createdAt'
+        ])
+        && data.productId in [
+          'flutter-basic-to-advanced',
+          'ai-automation-zero-to-advanced'
+        ]
+        && data.amount is int
+        && data.amount in [29900, 19900]
+        && data.currency == 'BDT'
+        && data.customerName is string
+        && data.customerName.size() >= 2
+        && data.customerName.size() <= 100
+        && data.customerPhone is string
+        && data.customerPhone.matches('^01[3-9][0-9]{8}$')
+        && data.paymentMethod in ['bkash', 'nagad', 'rocket']
+        && data.transactionId is string
+        && data.transactionId.size() >= 5
+        && data.transactionId.size() <= 64
+        && data.senderPhone is string
+        && data.senderPhone.matches('^01[3-9][0-9]{8}$')
+        && data.status == 'pending'
+        && data.createdAt == request.time;
+    }
+
+    match /orders/{orderId} {
+      allow create: if request.auth != null
+        && validOrder(request.resource.data);
+      // Reads, updates and deletes remain denied until an authenticated
+      // administrator workflow with explicit UID-based authorization exists.
+      allow read, update, delete: if false;
+    }
+  }
+}
