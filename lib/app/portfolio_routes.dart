@@ -14,6 +14,7 @@ class PortfolioRoutes {
     '/privacy-policy',
     '/terms-and-conditions',
     '/disclaimer',
+    '/admin/orders',
   ];
 
   /// Returns a canonical route for a known path, or Home for an unknown path.
