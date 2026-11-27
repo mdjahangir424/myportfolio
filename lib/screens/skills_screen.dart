@@ -159,7 +159,6 @@ class _SkillCategoryBlockState extends State<_SkillCategoryBlock>
     final colors = theme.colorScheme;
 
     return Container(
-      height: double.infinity,
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
       decoration: BoxDecoration(
         color: theme.cardColor,
