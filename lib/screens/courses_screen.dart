@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/digital_products_data.dart';
 import '../models/digital_product.dart';
@@ -286,10 +287,46 @@ class CoursesScreen extends StatelessWidget {
     );
 
     if (!context.mounted || orderId == null) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('অর্ডার জমা হয়েছে। Order ID: $orderId'),
-        duration: const Duration(seconds: 8),
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('অর্ডার জমা হয়েছে'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'আপনার Order ID সংরক্ষণ করুন। পেমেন্ট Approved হলে এই ID দিয়ে PDF ডাউনলোড করতে পারবেন।',
+            ),
+            const SizedBox(height: 14),
+            SelectableText(
+              orderId,
+              style: Theme.of(dialogContext).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: orderId));
+                  if (!dialogContext.mounted) return;
+                  ScaffoldMessenger.of(dialogContext).showSnackBar(
+                    const SnackBar(content: Text('Order ID কপি হয়েছে')),
+                  );
+                },
+                icon: const Icon(Icons.copy_rounded),
+                label: const Text('Order ID কপি করুন'),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('ঠিক আছে'),
+          ),
+        ],
       ),
     );
   }
