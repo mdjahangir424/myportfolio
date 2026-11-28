@@ -4,6 +4,7 @@ import '../data/digital_products_data.dart';
 import '../models/digital_product.dart';
 import '../widgets/section_title.dart';
 import '../widgets/book_order_dialog.dart';
+import '../widgets/book_download_section.dart';
 import '../widgets/shared_screen_layout.dart';
 
 class CoursesScreen extends StatelessWidget {
@@ -103,6 +104,8 @@ class CoursesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 42),
               _buildBookCatalog(context),
+              const SizedBox(height: 22),
+              const BookDownloadSection(),
               const SizedBox(height: 34),
               _buildComingSoon(context),
               const SizedBox(height: 28),
