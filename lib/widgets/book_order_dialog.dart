@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,16 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
   bool _submitting = false;
   String? _error;
   String? _submittedOrderId;
+
+  static const _orderIdCharacters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+  String _generateOrderId() {
+    final random = Random.secure();
+    return List.generate(
+      6,
+      (_) => _orderIdCharacters[random.nextInt(_orderIdCharacters.length)],
+    ).join();
+  }
 
   static const _accounts = <String, String>{
     'bkash': '01778600028',
@@ -51,24 +63,47 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
         throw StateError('Could not start a secure order session.');
       }
 
-      final ref = await FirebaseFirestore.instance.collection('orders').add({
-        'customerUid': user.uid,
-        'productId': widget.product.id,
-        'productTitle': widget.product.title,
-        'amount': widget.product.priceMinor,
-        'currency': widget.product.currency,
-        'customerName': _name.text.trim(),
-        'customerPhone': _phone.text.trim(),
-        'paymentMethod': _method,
-        'transactionId': _transaction.text.trim(),
-        'senderPhone': _phone.text.trim(),
-        'status': 'pending',
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      final orders = FirebaseFirestore.instance.collection('orders');
+      String? createdOrderId;
+
+      // Six-character codes are easy to share. Retry a collision rather than
+      // ever overwriting an existing order document.
+      for (var attempt = 0; attempt < 5; attempt++) {
+        final candidateId = _generateOrderId();
+        try {
+          await orders.doc(candidateId).set({
+            'customerUid': user.uid,
+            'productId': widget.product.id,
+            'productTitle': widget.product.title,
+            'amount': widget.product.priceMinor,
+            'currency': widget.product.currency,
+            'customerName': _name.text.trim(),
+            'customerPhone': _phone.text.trim(),
+            'paymentMethod': _method,
+            'transactionId': _transaction.text.trim(),
+            'senderPhone': _phone.text.trim(),
+            'status': 'pending',
+            'createdAt': FieldValue.serverTimestamp(),
+          });
+          createdOrderId = candidateId;
+          break;
+        } on FirebaseException catch (error) {
+          // If this short ID already exists, Firestore rejects the write as
+          // an update because customers are not allowed to update orders.
+          if (error.code == 'permission-denied' && attempt < 4) {
+            continue;
+          }
+          rethrow;
+        }
+      }
+
+      if (createdOrderId == null) {
+        throw StateError('Could not generate a unique Order ID. Please retry.');
+      }
 
       if (!mounted) return;
       FocusScope.of(context).unfocus();
-      setState(() => _submittedOrderId = ref.id);
+      setState(() => _submittedOrderId = createdOrderId);
     } on FirebaseException catch (error, stackTrace) {
       debugPrint('Learning Store order failed: ${error.code}: ${error.message}');
       debugPrintStack(stackTrace: stackTrace);
