@@ -287,39 +287,154 @@ class CoursesScreen extends StatelessWidget {
     );
 
     if (!context.mounted || orderId == null) return;
+    if (MediaQuery.sizeOf(context).width < 600) {
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useSafeArea: true,
+        backgroundColor: Colors.transparent,
+        builder: (sheetContext) {
+          final sheetTheme = Theme.of(sheetContext);
+          final colors = sheetTheme.colorScheme;
+
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.viewInsetsOf(sheetContext).bottom,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+              ),
+              child: SafeArea(
+                top: false,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: Container(
+                          width: 42,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: colors.outlineVariant,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 22),
+                      Icon(
+                        Icons.check_circle_rounded,
+                        size: 48,
+                        color: colors.primary,
+                      ),
+                      const SizedBox(height: 14),
+                      Text(
+                        'অর্ডার জমা হয়েছে',
+                        textAlign: TextAlign.center,
+                        style: sheetTheme.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'আপনার Order ID সংরক্ষণ করুন। পেমেন্ট Approved হলে এই ID দিয়ে PDF ডাউনলোড করতে পারবেন।',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 18),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: colors.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: SelectableText(
+                          orderId,
+                          textAlign: TextAlign.center,
+                          style: sheetTheme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      OutlinedButton.icon(
+                        onPressed: () async {
+                          await Clipboard.setData(
+                            ClipboardData(text: orderId),
+                          );
+                          if (!sheetContext.mounted) return;
+                          ScaffoldMessenger.of(sheetContext).showSnackBar(
+                            const SnackBar(
+                              content: Text('Order ID কপি হয়েছে'),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.copy_rounded),
+                        label: const Text('Order ID কপি করুন'),
+                      ),
+                      const SizedBox(height: 8),
+                      FilledButton(
+                        onPressed: () =>
+                            Navigator.of(sheetContext).pop(),
+                        child: const Text('ঠিক আছে'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+      return;
+    }
+
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 24,
+        ),
         title: const Text('অর্ডার জমা হয়েছে'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'আপনার Order ID সংরক্ষণ করুন। পেমেন্ট Approved হলে এই ID দিয়ে PDF ডাউনলোড করতে পারবেন।',
-            ),
-            const SizedBox(height: 14),
-            SelectableText(
-              orderId,
-              style: Theme.of(dialogContext).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton.icon(
-                onPressed: () async {
-                  await Clipboard.setData(ClipboardData(text: orderId));
-                  if (!dialogContext.mounted) return;
-                  ScaffoldMessenger.of(dialogContext).showSnackBar(
-                    const SnackBar(content: Text('Order ID কপি হয়েছে')),
-                  );
-                },
-                icon: const Icon(Icons.copy_rounded),
-                label: const Text('Order ID কপি করুন'),
+        content: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'আপনার Order ID সংরক্ষণ করুন। পেমেন্ট Approved হলে এই ID দিয়ে PDF ডাউনলোড করতে পারবেন।',
               ),
-            ),
-          ],
+              const SizedBox(height: 14),
+              SelectableText(
+                orderId,
+                style: Theme.of(dialogContext).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: orderId));
+                    if (!dialogContext.mounted) return;
+                    ScaffoldMessenger.of(dialogContext).showSnackBar(
+                      const SnackBar(content: Text('Order ID কপি হয়েছে')),
+                    );
+                  },
+                  icon: const Icon(Icons.copy_rounded),
+                  label: const Text('Order ID কপি করুন'),
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           FilledButton(
