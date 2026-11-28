@@ -117,7 +117,7 @@ class _BookDownloadSectionState extends State<BookDownloadSection> {
 
       setState(() {
         _downloadUrl = uri.toString();
-        _message = 'অর্ডার Approved হয়েছে। নিচের বাটনে ক্লিক করে PDF ডাউনলোড করুন। লিংকটি ৫ মিনিটের জন্য কার্যকর থাকবে।';
+        _message = 'অর্ডার Approved হয়েছে। নিচের বাটনে ক্লিক করে PDF ডাউনলোড করুন। লিংকটি ২ মিনিটের জন্য কার্যকর থাকবে।';
         _hasError = false;
       });
     } catch (error) {
