@@ -44,13 +44,14 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
     });
 
     try {
-      final credential = await FirebaseAuth.instance.signInAnonymously();
-      if (credential.user == null) {
+      final auth = FirebaseAuth.instance;
+      final user = auth.currentUser ?? (await auth.signInAnonymously()).user;
+      if (user == null) {
         throw StateError('Could not start a secure order session.');
       }
 
       final ref = await FirebaseFirestore.instance.collection('orders').add({
-        'customerUid': credential.user!.uid,
+        'customerUid': user.uid,
         'productId': widget.product.id,
         'productTitle': widget.product.title,
         'amount': widget.product.priceMinor,
