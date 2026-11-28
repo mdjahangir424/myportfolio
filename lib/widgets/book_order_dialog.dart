@@ -21,6 +21,7 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
   String _method = 'bkash';
   bool _submitting = false;
   String? _error;
+  String? _submittedOrderId;
 
   static const _accounts = <String, String>{
     'bkash': '01778600028',
@@ -67,7 +68,7 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
 
       if (!mounted) return;
       FocusScope.of(context).unfocus();
-      Navigator.of(context).pop(ref.id);
+      setState(() => _submittedOrderId = ref.id);
     } on FirebaseException catch (error, stackTrace) {
       debugPrint('Learning Store order failed: ${error.code}: ${error.message}');
       debugPrintStack(stackTrace: stackTrace);
@@ -88,8 +89,74 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
     }
   }
 
+  Widget _buildOrderSuccess(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final orderId = _submittedOrderId!;
+
+    return AlertDialog(
+      scrollable: true,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      title: Row(
+        children: [
+          Icon(Icons.check_circle_rounded, color: colors.primary),
+          const SizedBox(width: 10),
+          const Expanded(child: Text('অর্ডার জমা হয়েছে')),
+        ],
+      ),
+      content: SizedBox(
+        width: 420,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'আপনার Order ID সংরক্ষণ করুন। পেমেন্ট Approved হলে এই ID দিয়ে PDF ডাউনলোড করতে পারবেন।',
+            ),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: colors.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: SelectableText(
+                orderId,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton.icon(
+          onPressed: () async {
+            await Clipboard.setData(ClipboardData(text: orderId));
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Order ID কপি হয়েছে')),
+            );
+          },
+          icon: const Icon(Icons.copy_rounded),
+          label: const Text('কপি করুন'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(orderId),
+          child: const Text('সম্পন্ন'),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_submittedOrderId != null) {
+      return _buildOrderSuccess(context);
+    }
+
     final theme = Theme.of(context);
     final amount = widget.product.priceMinor ~/ 100;
 
