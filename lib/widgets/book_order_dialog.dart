@@ -66,6 +66,7 @@ class _BookOrderDialogState extends State<BookOrderDialog> {
       });
 
       if (!mounted) return;
+      FocusScope.of(context).unfocus();
       Navigator.of(context).pop(ref.id);
     } on FirebaseException catch (error, stackTrace) {
       debugPrint('Learning Store order failed: ${error.code}: ${error.message}');
